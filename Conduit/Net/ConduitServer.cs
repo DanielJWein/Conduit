@@ -149,16 +149,16 @@ public class ConduitServer : IDisposable {
             //Number of frames in a second
             double FramesPerSecond = 1000.0 / 60.0;
             //Get expected bitrate
-            ExpectedBitrate = ( data.SendDataLength - 1 ) * FramesPerSecond * 8;
+            ExpectedBitrate = ( data.RealDataLength - 1 ) * FramesPerSecond * 8;
 
             //Lock clients to prevent new connections
             lock ( clientele ) {
-                DataCounter += data.SendDataLength + 4u;
+                DataCounter += data.RealDataLength + 4u;
                 clientele.RemoveAll( x => x.Closed );
                 foreach ( var client in clientele ) {
                     try {
                         client.SendFrame( data );
-                        TotalDataCounter += data.SendDataLength + 4u;
+                        TotalDataCounter += data.RealDataLength + 4u;
                         handleControlPacket( client );
                     }
                     catch {
