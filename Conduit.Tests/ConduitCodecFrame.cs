@@ -5,6 +5,23 @@ namespace Conduit.Tests;
 public class ConduitCodecFrameTests {
     private ConduitCodecFrame frame = new( );
 
+    [Test]
+    public void GetPacket( ) {
+        byte[] data = getRandomBytes(508);
+        frame = new( data );
+
+        byte[] packet = frame.GetPacket( );
+        if ( packet.Length != 512 ) {
+            Assert.Fail( "The packet was the wrong length!" );
+        }
+
+        if ( frame.IsEmpty ) {
+            Assert.Fail( );
+        }
+
+        Assert.Pass( );
+    }
+
     public byte[ ] getRandomBytes( int length ) {
         byte[] data = new byte[length];
 
@@ -19,7 +36,7 @@ public class ConduitCodecFrameTests {
         frame = new( data );
 
         if ( frame.IsEmpty ) {
-            Assert.Fail( );
+            Assert.Fail( "The frame was detected to be empty." );
         }
 
         Assert.Pass( );
