@@ -44,7 +44,6 @@ partial class ConduitServerForm {
         labelDataUnique = new Label( );
         labelDataTotal = new Label( );
         labelBitrate = new Label( );
-        buttonDiscardBuffer = new Button( );
         textBox1 = new TextBox( );
         SuspendLayout( );
         // 
@@ -230,17 +229,6 @@ partial class ConduitServerForm {
         labelBitrate.TabIndex = 22;
         labelBitrate.Text = "Average Bitrate: 0";
         // 
-        // button1
-        // 
-        buttonDiscardBuffer.FlatStyle = FlatStyle.Flat;
-        buttonDiscardBuffer.ForeColor = SystemColors.Control;
-        buttonDiscardBuffer.Location = new Point( 94, 116 );
-        buttonDiscardBuffer.Name = "button1";
-        buttonDiscardBuffer.Size = new Size( 83, 29 );
-        buttonDiscardBuffer.TabIndex = 23;
-        buttonDiscardBuffer.Text = "Req. Clear";
-        buttonDiscardBuffer.UseVisualStyleBackColor = true;
-        // 
         // textBox1
         // 
         textBox1.BackColor = SystemColors.WindowFrame;
@@ -260,7 +248,6 @@ partial class ConduitServerForm {
         BackColor = SystemColors.WindowFrame;
         ClientSize = new Size( 477, 239 );
         Controls.Add( textBox1 );
-        Controls.Add( buttonDiscardBuffer );
         Controls.Add( labelBitrate );
         Controls.Add( labelDataTotal );
         Controls.Add( labelDataUnique );
@@ -307,6 +294,5 @@ partial class ConduitServerForm {
     private Label labelDataUnique;
     private Label labelDataTotal;
     private Label labelBitrate;
-    private Button buttonDiscardBuffer;
     private TextBox textBox1;
 }

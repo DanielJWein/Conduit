@@ -35,7 +35,6 @@ public partial class ConduitServerForm : Form {
         fillConnections.Start( );
         StatusLabel.Text = "OK";
 
-        buttonDiscardBuffer.Click += ( object? o, EventArgs e ) => server.Send( ConduitControlPacket.CONTROL_DISCARD_BUFFER );
         afq.OnNewReaderPlaying += ( object? o, EventArgs e ) => Invoke( ( ) => textBox1.Text = server.TrackTitle.Value = afq.PlayingFile.Substring( afq.PlayingFile.LastIndexOf( '\\' ) + 1 ) );
         buttonViewQueue.Click += ( object? o, EventArgs e ) => new ConduitServerQueueForm( this ).Show( );
         buttonClearQueue.Click += ( object? o, EventArgs e ) => afq.Clear( );

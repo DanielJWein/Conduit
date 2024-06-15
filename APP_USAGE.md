@@ -37,8 +37,6 @@ To view the queue, click `View Queue`.
 
 To clear the queue, click `Clear Queue`.
 
-To request that all clients discard their buffers, click `Req. Clear`.
-
 The red and white squares do the same thing as on the client (close and make transparent).
 
 **To play a file, drag and drop it onto the Conduit Live Server window**.

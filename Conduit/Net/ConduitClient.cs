@@ -227,14 +227,6 @@ public class ConduitClient : IDisposable {
                 throw new DisconnectedException( );
             }
 
-            //Discard Buffers
-            if ( control.CheckAgainst( ConduitControlPacket.CONTROL_DISCARD_BUFFER ) ) {
-                ClearData( );
-                //Actually consume the control packet
-                serverConnection.Receive( control, 0, 2 );
-                return true;
-            }
-
             //Track Changed
             if ( control.CheckAgainst( ConduitControlPacket.CONTROL_TRACK_TITLE_CHANGED ) ) {
                 //Read the control message fully.
