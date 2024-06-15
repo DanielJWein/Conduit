@@ -1,0 +1,19 @@
+﻿-------------------- CONDUIT NETCODE CONTROL PROTOCOL ------------------------
+Packet Format:
+    [HEADER VERSION (8 bit)] [CONTROL MESSAGE (8 bit)]
+
+    Header Version must be 1 (there is currently no other packet format)
+    
+    Control Message:
+        0: Data Packet, read next ushort for packet length
+        1: Connection closing (close the socket)
+       1X: Buffer Messages
+        0: Buffer Underflow Imminent
+        1: Buffer Overflow Imminent
+        2: Buffer Underflow Occurred
+        3: Buffer Overflow Occurred
+        4: Discard your buffers
+       2X: Server State Messages
+        0: Server Paused (no files left playing)
+        1: Server Playing (22 will be sent after this message.)
+        2: Server Track Title Changed (read ushort for length of next UTF8->Base64 title stream)
