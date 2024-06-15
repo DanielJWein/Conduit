@@ -13,11 +13,6 @@ public abstract class ConduitCodecBase : IDisposable {
     public static WaveFormat WaveFmt = new( 48000, 16, 2 );
 
     /// <summary>
-    /// The frame size, in milliseconds.
-    /// </summary>
-    protected readonly float frameDuration;
-
-    /// <summary>
     /// If true, this codec is destroyed and cannot be used.
     /// </summary>
     protected bool disposed;
@@ -60,6 +55,22 @@ public abstract class ConduitCodecBase : IDisposable {
     /// If true, this codec is destroyed and cannot be used.
     /// </summary>
     public bool IsDisposed => disposed;
+
+    /// <summary>
+    /// The frame size, in milliseconds.
+    /// </summary>
+    protected float frameDuration { private set; get; }
+
+    /// <summary>
+    /// Changes the frame duration of this codec.
+    /// </summary>
+    /// <param name="newFrameDuration">
+    /// The new frameDuration. Can be one of (2.5, 5, 10, 20, 60).
+    /// </param>
+    public void ChangeFrameDuration( float newFrameDuration ) {
+        frameDuration = newFrameDuration;
+        pcmFrame = new byte[ (int) ( frameDuration * 192 ) ];
+    }
 
     /// <summary>
     /// Releases all resources used by this instance.
