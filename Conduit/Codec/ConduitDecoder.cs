@@ -34,13 +34,17 @@ public class ConduitDecoder : ConduitCodecBase {
         if ( Frame?.IsEmpty ?? true )
             return;
 
-        opusFrame = Convert.FromBase64String( Frame.Data );
-
-        int encL = opusDec.Decode(opusFrame,
+        opusFrame = Convert.FromBase64String( Frame.EncodedData );
+        int encL =0;
+        try {
+            encL = opusDec.Decode( opusFrame,
                                   opusFrame.Length,
                                   pcmFrame,
-                                  pcmFrame.Length);
-
+                                  pcmFrame.Length );
+        }
+        catch ( OpusException ) {
+            return;
+        }
         Buffer.AddSamples( pcmFrame, 0, encL );
 
         OnDecodedFrame?.Invoke( this, EventArgs.Empty );
