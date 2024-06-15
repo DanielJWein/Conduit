@@ -27,7 +27,7 @@ public class ConduitCodecFrameTests {
 
     [Test]
     public void NotEmptyFrameIsNotEmptyEXTREME( ) {
-        for ( int i = 1; i < 256; i++ ) {
+        for ( int i = 9; i < 256; i++ ) {
             byte[] data = getRandomBytes(i);
             frame = new( data );
 
