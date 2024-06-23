@@ -14,8 +14,27 @@ public class ConduitDecoderTests {
     private ConduitDecoder decoder;
 
     [Test]
-    public void Decode( ) {
+    public void DecodeEmpty( ) {
+        if ( decoder.Buffer.BufferedBytes > 0 ) {
+            Assert.Fail( "The buffer was not empty." );
+        }
+        decoder.DecodeFrame( ConduitCodecFrame.EmptyFrame );
+        if ( decoder.Buffer.BufferedBytes > 0 ) {
+            Assert.Fail( $"The DecodeFrame method added {decoder.Buffer.BufferedBytes} bytes to the buffer (expected 0)" );
+        }
+        Assert.Pass( $"{decoder.Buffer.BufferedBytes} were added to the buffer (expected !0)" );
+    }
+
+    [Test]
+    public void DecodeReal( ) {
+        if ( decoder.Buffer.BufferedBytes > 0 ) {
+            Assert.Fail( "The buffer was not empty." );
+        }
         decoder.DecodeFrame( new( encData ) );
+        if ( decoder.Buffer.BufferedBytes <= 0 ) {
+            Assert.Fail( "The DecodeFrame method did not add any bytes to the buffer." );
+        }
+        Assert.Pass( $"{decoder.Buffer.BufferedBytes} bytes were added to the buffer (expected 0)" );
     }
 
     [SetUp]
