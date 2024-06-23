@@ -38,7 +38,7 @@ public class ConduitClient : IDisposable {
     /// </summary>
     /// <param name="address"> The address to connect to </param>
     /// <param name="port">    The port to connect to </param>
-    public ConduitClient( string address, short port = 32662 ) {
+    public ConduitClient( string address, ushort port = 32662 ) {
         ServerEndpoint =
             new IPEndPoint(
                 address.Any( char.IsLetter ) ?

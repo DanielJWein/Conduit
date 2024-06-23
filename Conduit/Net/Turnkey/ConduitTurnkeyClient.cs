@@ -43,7 +43,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// <summary>
     /// Creates a new ConduitTurnkeyClient
     /// </summary>
-    public ConduitTurnkeyClient( string address, short port = 32662 ) : base( address, port ) {
+    public ConduitTurnkeyClient( string address, ushort port = 32662 ) : base( address, port ) {
         conduitDec.Buffer.BufferDuration = TimeSpan.FromSeconds( 10 );
         conduitDec.Buffer.BufferLowThreshold = TimeSpan.FromSeconds( 5 );
         conduitDec.Buffer.OnBufferOut += onBufferOutAsync;

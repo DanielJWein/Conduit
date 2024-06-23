@@ -20,7 +20,7 @@ public partial class ConduitClientForm : Form {
         InitializeComponent( );
 
         //Create client and hook events
-        client = new ConduitTurnkeyClient( textboxHost.Text, short.Parse( textboxPort.Text ) );
+        client = new ConduitTurnkeyClient( textboxHost.Text, ushort.Parse( textboxPort.Text ) );
         //Change title to be green on connect
         client.OnConnected += ( object? o, EventArgs e ) => Invoke( ( ) => labelTitle.ForeColor = Color.Green );
         //And red on disconnect
