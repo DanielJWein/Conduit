@@ -68,7 +68,7 @@ public sealed class ByteQueue {
     /// Thrown if the requested indices exit the target buffer OR if <paramref name="count" /> is
     /// less than 1 OR if <paramref name="offset" /> was less than 0
     /// </exception>
-    public void ReadBytes( byte[ ] outputBuffer, int offset, int count ) {
+    public void Read( byte[ ] outputBuffer, int offset, int count ) {
         if ( count < 1 )
             throw new ArgumentOutOfRangeException( nameof( count ), "Count was not above 0!" );
 
@@ -96,7 +96,7 @@ public sealed class ByteQueue {
     /// Thrown if the requested indices exit the internal buffer OR if <paramref name="count" /> is
     /// less than 1 OR if <paramref name="offset" /> was less than 0
     /// </exception>
-    public void WriteBytes( byte[ ] bytes, int offset, int count ) {
+    public void Write( byte[ ] bytes, int offset, int count ) {
         if ( count < 1 )
             throw new ArgumentOutOfRangeException( nameof( count ), "Count was not above 0!" );
 
