@@ -105,6 +105,21 @@ public class ConduitServer : IDisposable {
     public event EventHandler OnTrackTitleChanged;
 
     /// <summary>
+    /// Checks to see if clients have sent control packets.
+    /// </summary>
+    public void CheckForClientControlPackets( ) {
+        for ( int i = 0; i < clientele.Count; i++ ) {
+            ConduitConnection client = clientele[ i ];
+            try {
+                handleControlPacket( client );
+            }
+            catch {
+                client.Close( );
+            }
+        }
+    }
+
+    /// <summary>
     /// Disconnects all connected clients.
     /// </summary>
     public void Close( ) {
@@ -154,12 +169,13 @@ public class ConduitServer : IDisposable {
             //Lock clients to prevent new connections
             lock ( clientele ) {
                 DataCounter += data.RealDataLength + 4u;
+                CheckForClientControlPackets( );
                 clientele.RemoveAll( x => x.Closed );
-                foreach ( var client in clientele ) {
+                for ( int i = 0; i < clientele.Count; i++ ) {
+                    ConduitConnection client = clientele[ i ];
                     try {
                         client.SendFrame( data );
                         TotalDataCounter += data.RealDataLength + 4u;
-                        handleControlPacket( client );
                     }
                     catch {
                         client.Close( );
@@ -225,8 +241,10 @@ public class ConduitServer : IDisposable {
             byte[] controlData = new byte[2];
             clientSocket.Receive( controlData, 2, SocketFlags.None );
 
-            if ( controlData.CheckAgainst( ConduitControlPacket.CONTROL_DISCONNECT ) )
+            if ( controlData.CheckAgainst( ConduitControlPacket.CONTROL_DISCONNECT ) ) {
                 client.Close( );
+                clientele.Remove( client );
+            }
         }
     }
 }
