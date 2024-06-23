@@ -107,7 +107,7 @@ public class ConduitServer : IDisposable {
     /// <summary>
     /// Checks to see if clients have sent control packets.
     /// </summary>
-    public void CheckForClientControlPackets( ) {
+    public void UpdateClients( ) {
         for ( int i = 0; i < clientele.Count; i++ ) {
             ConduitConnection client = clientele[ i ];
             try {
@@ -169,7 +169,7 @@ public class ConduitServer : IDisposable {
             //Lock clients to prevent new connections
             lock ( clientele ) {
                 DataCounter += data.RealDataLength + 4u;
-                CheckForClientControlPackets( );
+                UpdateClients( );
                 clientele.RemoveAll( x => x.Closed );
                 for ( int i = 0; i < clientele.Count; i++ ) {
                     ConduitConnection client = clientele[ i ];
@@ -244,6 +244,10 @@ public class ConduitServer : IDisposable {
             if ( controlData.CheckAgainst( ConduitControlPacket.CONTROL_DISCONNECT ) ) {
                 client.Close( );
                 clientele.Remove( client );
+            }
+            else if ( controlData.CheckAgainst( ConduitControlPacket.CONTROL_CLIENT_REQUEST_TRACK_TITLE ) ) {
+                client.SendControlPacket( ConduitControlPacket.CONTROL_TRACK_TITLE_CHANGED );
+                client.SendString( TrackTitle.Value );
             }
         }
     }

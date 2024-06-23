@@ -53,8 +53,8 @@
   </ItemGroup>
 
   <Target Name="ForceOpusDll" AfterTargets="AfterBuild">
-    <Copy SourceFiles="lib/opus.dll" DestinationFolder="$(OutDir)"/>
-    <RemoveDir Directories ="$(OutDir)/lib"/>
+    <Copy SourceFiles="lib/opus.dll" DestinationFolder="$(OutDir)" />
+    <RemoveDir Directories="$(OutDir)/lib" />
   </Target>
 
 </Project>

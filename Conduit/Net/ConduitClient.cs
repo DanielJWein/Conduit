@@ -115,7 +115,8 @@ public class ConduitClient : IDisposable {
         };
         socket.Connect( ServerEndpoint );
         serverConnection = new( socket, ServerEndpoint );
-
+        serverConnection.SendControlPacket( ConduitControlPacket.CONTROL_CLIENT_REQUEST_TRACK_TITLE );
+        Update( );
         Connected = true;
     }
 
@@ -173,7 +174,7 @@ public class ConduitClient : IDisposable {
     /// </summary>
     /// <returns> True, if a control packet was processed </returns>
     /// <exception cref="DisconnectedException"> Thrown if the control packet was <see cref="ConduitControlPacket.CONTROL_DISCONNECT" /> </exception>
-    public bool ProcessControlPacket( ) {
+    public bool Update( ) {
         byte[] bufma = new byte[2];
 
         bufma = serverConnection.Receive( 2, true );

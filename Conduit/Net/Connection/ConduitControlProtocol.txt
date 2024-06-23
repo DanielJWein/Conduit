@@ -17,3 +17,5 @@ Packet Format:
         0: Server Paused (no files left playing)
         1: Server Playing (22 will be sent after this message.)
         2: Server Track Title Changed (read ushort for length of next UTF8->Base64 title stream)
+       8X: Client Requests
+        2: Request Track title (send me 0x22)

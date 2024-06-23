@@ -32,6 +32,11 @@ public static class ConduitControlPacket {
     public static byte[ ] BUFFER_UNDERFLOW_OCCURRED => [ 0x01, 0x12 ];
 
     /// <summary>
+    /// The client requests the track title.
+    /// </summary>
+    public static byte[ ] CONTROL_CLIENT_REQUEST_TRACK_TITLE => [ 0x01, 0x82 ];
+
+    /// <summary>
     /// The client or server disconnected.
     /// </summary>
     public static byte[ ] CONTROL_DATA => [ 0x01, 0x00 ];
