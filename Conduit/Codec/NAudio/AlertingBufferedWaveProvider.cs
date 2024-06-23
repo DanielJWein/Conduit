@@ -26,12 +26,18 @@ public sealed class AlertingBufferedWaveProvider : IWaveProvider {
     /// Creates a new AlertingBufferedWaveProvider
     /// </summary>
     /// <param name="waveFormat"> The format for this object. </param>
-    public AlertingBufferedWaveProvider( WaveFormat waveFormat ) {
+    /// <param name="ts">        
+    /// The duration of the buffer. If it is null or not provided, it is set to 30 seconds.
+    /// </param>
+    public AlertingBufferedWaveProvider( WaveFormat waveFormat, TimeSpan? ts = null ) {
+        if ( ts is null ) {
+            ts = TimeSpan.FromSeconds( 30 );
+        }
         WaveFormat = waveFormat;
         BufferLength = waveFormat.AverageBytesPerSecond * 30;
         ReadFully = true;
-        BufferLowThreshold = TimeSpan.FromSeconds( 2 );
-        BufferHighThreshold = TimeSpan.FromSeconds( 25 );
+        BufferLowThreshold = TimeSpan.FromSeconds( ts.Value.TotalSeconds * 0.10f );
+        BufferHighThreshold = TimeSpan.FromSeconds( ts.Value.TotalSeconds * 0.90f );
     }
 
     /// <summary>
