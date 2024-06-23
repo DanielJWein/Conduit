@@ -51,6 +51,9 @@ public class ConduitDecoder : ConduitCodecBase {
 
     /// <inheritdoc />
     public override void Dispose( ) {
+        if ( disposed ) {
+            return;
+        }
         opusDec.Dispose( );
         GC.SuppressFinalize( this );
         base.Dispose( );
