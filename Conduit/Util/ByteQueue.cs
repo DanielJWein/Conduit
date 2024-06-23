@@ -30,6 +30,11 @@ public sealed class ByteQueue {
     }
 
     /// <summary>
+    /// How many bytes are queued in this ByteQueue
+    /// </summary>
+    public int QueuedBytes => writePtr;
+
+    /// <summary>
     /// Allows indexing into the underlying buffer
     /// </summary>
     /// <param name="x"> The index to read or write </param>
