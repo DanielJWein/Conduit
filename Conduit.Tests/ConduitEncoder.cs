@@ -1,3 +1,5 @@
+using System.Text;
+
 using Conduit.Codec;
 
 using NAudio.Wave;
@@ -5,6 +7,8 @@ using NAudio.Wave;
 namespace Conduit.Tests;
 
 public class ConduitEncoderTests {
+    private const int PcmFrameMaxSize = 60 * 192;
+
     private ConduitEncoder encoder;
 
     [Test]
@@ -19,7 +23,6 @@ public class ConduitEncoderTests {
     [Test]
     public void Encode( ) {
         //Make size the maximum possible Opus size so that it will always emit at LEAST one frame.
-        const int size = 60 * 192;
 
         //Main test flag
         bool frameAvailableRaised = false;
@@ -28,7 +31,7 @@ public class ConduitEncoderTests {
         encoder.OnFrameAvailable += ( object? o, EventArgs e ) => frameAvailableRaised = true;
 
         //Add some random data to the encoder
-        encoder.AddSamples( getRandomBytes( size ), 0, size );
+        encoder.AddSamples( getRandomBytes( PcmFrameMaxSize ), 0, PcmFrameMaxSize );
 
         //Test that frameAvailableRaised was set.
         if ( !frameAvailableRaised ) {
@@ -40,23 +43,18 @@ public class ConduitEncoderTests {
 
     [Test]
     public void GetFrame( ) {
-        bool frameAvailableRaised = false;
-        encoder.OnFrameAvailable += ( object? o, EventArgs e ) => frameAvailableRaised = true;
+        ConduitCodecFrame? frame = null;
+        encoder.OnFrameAvailable += ( object? o, EventArgs e ) => frame = encoder.GetFrame( );
+        encoder.AddSamples( getRandomBytes( PcmFrameMaxSize ), 0, PcmFrameMaxSize );
 
-        byte[] data = getRandomBytes( 5120 );
-
-        encoder.AddSamples( data, 0, 5120 );
-
-        if ( !frameAvailableRaised ) {
-            Assert.Fail( "The OnFrameAvailable event was not raised." );
-        }
-        else {
-            var frame = encoder.GetFrame( );
-            if ( frame.RealDataLength <= 32 ) {
-                Assert.Fail( "The frame was invalid." );
-            }
+        if ( frame is null )
+            Assert.Fail( "The frame was null." );
+        else if ( frame.RealDataLength < 32 )
+            Assert.Fail( "The frame was invalid." );
+        else if ( frame.IsEmpty )
+            Assert.Fail( "The frame was empty." );
+        else
             Assert.Pass( "The frame was valid." );
-        }
     }
 
     public byte[ ] getRandomBytes( int length ) {
@@ -71,5 +69,10 @@ public class ConduitEncoderTests {
     public void Setup( ) {
         ConduitCodecBase.WaveFmt = new WaveFormat( 48000, 16, 2 );
         encoder = new( );
+    }
+
+    [TearDown]
+    public void TearDown( ) {
+        encoder.Dispose( );
     }
 }
