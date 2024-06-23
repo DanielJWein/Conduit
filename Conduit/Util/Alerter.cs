@@ -6,7 +6,7 @@
 /// <typeparam name="T"> The type of the object. </typeparam>
 /// <remarks> Creates a new Alerter </remarks>
 /// <param name="defaultValue"> </param>
-public class Alerter<T>( T defaultValue = default ) where T : IEquatable<T> {
+public sealed class Alerter<T>( T defaultValue = default ) where T : IEquatable<T> {
 
     /// <summary>
     /// The backing field for this Alerter.
