@@ -9,6 +9,9 @@ public class ConduitDecoderTests {
 
     [Test]
     public void DecodeEmpty( ) {
+        bool eventRaised = false;
+        decoder.OnDecodedFrame += ( object? o, EventArgs e ) => eventRaised = true;
+
         //We need to be sure that the buffer is empty to check the result
         if ( decoder.Buffer.BufferedBytes > 0 ) {
             Assert.Fail( "The buffer was not empty." );
@@ -22,12 +25,20 @@ public class ConduitDecoderTests {
             Assert.Fail( $"The DecodeFrame method added {decoder.Buffer.BufferedBytes} bytes to the buffer (expected 0)" );
         }
 
+        //We expect the event is not raised.
+        if ( eventRaised ) {
+            Assert.Fail( "The OnDecodedFrame event was raised for an empty frame." );
+        }
+
         //We passed!
         Assert.Pass( $"{decoder.Buffer.BufferedBytes} were added to the buffer (expected !0)" );
     }
 
     [Test]
     public void DecodeReal( ) {
+        bool eventRaised = false;
+        decoder.OnDecodedFrame += ( object? o, EventArgs e ) => eventRaised = true;
+
         //We need to be sure that the buffer is empty to check the result.
         if ( decoder.Buffer.BufferedBytes > 0 ) {
             Assert.Fail( "The buffer was not empty." );
@@ -39,6 +50,11 @@ public class ConduitDecoderTests {
         //We expect that more than zero bytes were added to the buffer.
         if ( decoder.Buffer.BufferedBytes <= 0 ) {
             Assert.Fail( "The DecodeFrame method did not add any bytes to the buffer." );
+        }
+
+        //We expect the event is  raised.
+        if ( !eventRaised ) {
+            Assert.Fail( "The OnDecodedFrame event was not raised." );
         }
 
         //We passed!
