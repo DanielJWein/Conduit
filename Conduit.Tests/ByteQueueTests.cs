@@ -15,20 +15,34 @@ public class ByteQueueTests {
         byte[] data = TestHelpers.getRandomBytes(1024);
 
         //Invalid count
-        Assert.Throws<ArgumentOutOfRangeException>( ( ) => queue.WriteBytes( data, 0, -1 ), "The buffer allowed an invalid count!" );
-        Assert.Throws<ArgumentOutOfRangeException>( ( ) => queue.WriteBytes( data, 0, 0 ), "The buffer allowed an invalid count!" );
+        Assert.Throws<ArgumentOutOfRangeException>( ( ) => queue.WriteBytes( data, 0, -1 ),
+            "The buffer allowed an invalid count!" );
+        Assert.Throws<ArgumentOutOfRangeException>( ( ) => queue.WriteBytes( data, 0, 0 ),
+            "The buffer allowed an invalid count!" );
 
         //Invalid offet
-        Assert.Throws<ArgumentOutOfRangeException>( ( ) => queue.WriteBytes( data, -1, 1 ), "The buffer allowed an invalid offset!" );
+        Assert.Throws<ArgumentOutOfRangeException>( ( ) => queue.WriteBytes( data, -1, 1 ),
+            "The buffer allowed an invalid offset!" );
 
         queue.WriteBytes( data, 0, 1024 );
 
+        if ( queue.QueuedBytes != 1024 ) {
+            Assert.Fail( $"The number of bytes did not match the expected value. {queue.QueuedBytes} written, 1024 expected." );
+        }
+
         //Writes past end of buffer
-        Assert.Throws<ArgumentOutOfRangeException>( ( ) => queue.WriteBytes( data, 0, 1 ), "The buffer allowed to write past its end!" );
+        Assert.Throws<ArgumentOutOfRangeException>( ( ) => queue.WriteBytes( data, 0, 1 ),
+            "The buffer allowed to write past its end!" );
 
         queue.ReadBytes( data, 0, 4 );
 
+        if ( queue.QueuedBytes != 1020 ) {
+            Assert.Fail( $"The number of bytes queued did not match the expectation. {queue.QueuedBytes} queued, 1020 expected." );
+        }
+
         queue.WriteBytes( data, 0, 4 );
+
+        byte[] data2 = queue;
 
         Assert.Pass( "All tests succeeded." );
     }
