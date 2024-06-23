@@ -48,7 +48,10 @@ public sealed class ByteQueue {
     /// <summary>
     /// Clears the buffer
     /// </summary>
-    public void Clear( ) => Array.Clear( buffer, 0, buffer.Length );
+    public void Clear( ) {
+        Array.Clear( buffer, 0, buffer.Length );
+        writePtr = 0;
+    }
 
     /// <summary>
     /// Reads bytes from this buffer, automatically updating the position
