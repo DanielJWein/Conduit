@@ -57,16 +57,25 @@ public sealed class ByteQueue {
     /// <param name="offset">       The offset to read to </param>
     /// <param name="count">        The number of bytes to read </param>
     /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown if the requested indices exit the target buffer
+    /// Thrown if the requested indices exit the target buffer OR if <paramref name="count" /> is
+    /// less than 1 OR if <paramref name="offset" /> was less than 0
     /// </exception>
     public void ReadBytes( byte[ ] outputBuffer, int offset, int count ) {
+        if ( count < 1 )
+            throw new ArgumentOutOfRangeException( nameof( count ), "Count was not above 0!" );
+
+        if ( offset < 0 )
+            throw new ArgumentOutOfRangeException( nameof( count ), "The offset was negative!" );
+
         if ( outputBuffer.Length < offset + count )
             throw new ArgumentOutOfRangeException( nameof( count ), "The requested offset and size overrun the buffer!" );
 
         //Copy data to consumer array
         Array.Copy( buffer, 0, outputBuffer, offset, count );
         //Consume data from our array
-        Array.Copy( buffer, writePtr, buffer, 0, count );
+        Array.Copy( buffer, writePtr, buffer, 0, Capacity - writePtr );
+
+        writePtr -= count;
     }
 
     /// <summary>
@@ -76,11 +85,15 @@ public sealed class ByteQueue {
     /// <param name="offset"> The offset to read from </param>
     /// <param name="count">  The number of bytes to read </param>
     /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown if the requested indices exit the internal buffer OR if count is less than 1
+    /// Thrown if the requested indices exit the internal buffer OR if <paramref name="count" /> is
+    /// less than 1 OR if <paramref name="offset" /> was less than 0
     /// </exception>
     public void WriteBytes( byte[ ] bytes, int offset, int count ) {
         if ( count < 1 )
             throw new ArgumentOutOfRangeException( nameof( count ), "Count was not above 0!" );
+
+        if ( offset < 0 )
+            throw new ArgumentOutOfRangeException( nameof( count ), "The offset was negative!" );
 
         if ( writePtr + count > Capacity )
             throw new ArgumentOutOfRangeException( nameof( count ), "There is not enough capacity to handle the write." );

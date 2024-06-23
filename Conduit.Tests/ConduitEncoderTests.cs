@@ -31,7 +31,7 @@ public class ConduitEncoderTests {
         encoder.OnFrameAvailable += ( object? o, EventArgs e ) => frameAvailableRaised = true;
 
         //Add some random data to the encoder
-        encoder.AddSamples( getRandomBytes( PcmFrameMaxSize ), 0, PcmFrameMaxSize );
+        encoder.AddSamples( TestHelpers.getRandomBytes( PcmFrameMaxSize ), 0, PcmFrameMaxSize );
 
         //Test that frameAvailableRaised was set.
         if ( !frameAvailableRaised ) {
@@ -45,7 +45,7 @@ public class ConduitEncoderTests {
     public void GetFrame( ) {
         ConduitCodecFrame? frame = null;
         encoder.OnFrameAvailable += ( object? o, EventArgs e ) => frame = encoder.GetFrame( );
-        encoder.AddSamples( getRandomBytes( PcmFrameMaxSize ), 0, PcmFrameMaxSize );
+        encoder.AddSamples( TestHelpers.getRandomBytes( PcmFrameMaxSize ), 0, PcmFrameMaxSize );
 
         if ( frame is null )
             Assert.Fail( "The frame was null." );
@@ -55,14 +55,6 @@ public class ConduitEncoderTests {
             Assert.Fail( "The frame was empty." );
         else
             Assert.Pass( "The frame was valid." );
-    }
-
-    public byte[ ] getRandomBytes( int length ) {
-        byte[] data = new byte[length];
-
-        Random rnd = new();
-        rnd.NextBytes( data );
-        return data;
     }
 
     [SetUp]
