@@ -22,9 +22,8 @@ public class ConduitDecoder : ConduitCodecBase {
     public event EventHandler OnDecodedFrame;
 
     /// <summary>
-    /// Gets a base64 opusEnc frame
+    /// Decodes an opus encoded frame and pushes the samples into the buffer.
     /// </summary>
-    /// <returns> The encoded frame, or "No Frame" if the buffer wasn'updateTimer ready. </returns>
     public void DecodeFrame( ConduitCodecFrame Frame ) {
         if ( IsDisposed ) {
             return;
