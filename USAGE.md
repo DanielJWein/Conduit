@@ -81,7 +81,7 @@ void ThreadGetAudio() {
         else {
             try {
                 //Process control packets (such as disconnect)
-                _ = client.ProcessControlPacket();
+                _ = client.Update();
             }
             //The server disconnected.
             catch (DisconnectedException) {
@@ -136,6 +136,7 @@ void SendFrameToClients(ConduitCodecFrame data) {
 //Check out ConduitControlPacket.cs for defined controls
 //and ConduitControlProtocol.txt for more info.
 void SendControlPacketToClients(byte[] controlPacket) {
+    server.UpdateClients();
     sever.Send(controlPacket);
 }
 
