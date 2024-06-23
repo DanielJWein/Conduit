@@ -8,7 +8,38 @@ public class ConduitEncoderTests {
     private ConduitEncoder encoder;
 
     [Test]
+    public void Dispose( ) {
+        encoder.Dispose( );
+
+        Assert.Throws<ObjectDisposedException>( ( ) => {
+            encoder.AddSamples( [ 125, 255 ], 0, 2 );
+        } );
+    }
+
+    [Test]
     public void Encode( ) {
+        //Make size the maximum possible Opus size so that it will always emit at LEAST one frame.
+        const int size = 60 * 192;
+
+        //Main test flag
+        bool frameAvailableRaised = false;
+
+        //Hook event
+        encoder.OnFrameAvailable += ( object? o, EventArgs e ) => frameAvailableRaised = true;
+
+        //Add some random data to the encoder
+        encoder.AddSamples( getRandomBytes( size ), 0, size );
+
+        //Test that frameAvailableRaised was set.
+        if ( !frameAvailableRaised ) {
+            Assert.Fail( "The OnFrameAvailable event was not raised." );
+        }
+
+        Assert.Pass( "The OnFrameAvailable event was raised." );
+    }
+
+    [Test]
+    public void GetFrame( ) {
         bool frameAvailableRaised = false;
         encoder.OnFrameAvailable += ( object? o, EventArgs e ) => frameAvailableRaised = true;
 
@@ -18,6 +49,13 @@ public class ConduitEncoderTests {
 
         if ( !frameAvailableRaised ) {
             Assert.Fail( "The OnFrameAvailable event was not raised." );
+        }
+        else {
+            var frame = encoder.GetFrame( );
+            if ( frame.RealDataLength <= 32 ) {
+                Assert.Fail( "The frame was invalid." );
+            }
+            Assert.Pass( "The frame was valid." );
         }
     }
 

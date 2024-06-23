@@ -7,12 +7,19 @@ public class ConduitCodecFrameTests {
 
     [Test]
     public void GetPacket( ) {
-        byte[] data = getRandomBytes(508);
+        int dataLength = 508;
+        byte[] data = getRandomBytes(dataLength);
         frame = new( data );
 
         byte[] packet = frame.GetPacket( );
-        if ( packet.Length != 512 ) {
+        if ( packet.Length != dataLength + 4 ) {
             Assert.Fail( "The packet was the wrong length!" );
+        }
+
+        for ( int i = 0; i < dataLength; i++ ) {
+            if ( data[ i ] != packet[ i + 4 ] ) {
+                Assert.Fail( "The data did not match." );
+            }
         }
 
         if ( frame.IsEmpty ) {

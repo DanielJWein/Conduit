@@ -68,6 +68,9 @@ public abstract class ConduitCodecBase : IDisposable {
     /// The new frameDuration. Can be one of (2.5, 5, 10, 20, 60).
     /// </param>
     public void ChangeFrameDuration( float newFrameDuration ) {
+        if ( disposed )
+            throw new ObjectDisposedException( "this", "This item is disposed." );
+
         frameDuration = newFrameDuration;
         pcmFrame = new byte[ (int) ( frameDuration * 192 ) ];
     }

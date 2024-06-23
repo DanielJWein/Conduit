@@ -33,6 +33,9 @@ public class ConduitEncoder : ConduitCodecBase {
     /// <param name="dataOffset"> The offset to start adding from </param>
     /// <param name="dataLength"> The amount of data to add </param>
     public void AddSamples( byte[ ] data, int dataOffset, int dataLength ) {
+        if ( disposed )
+            throw new ObjectDisposedException( "this", "The encoder is disposed." );
+
         Buffer.AddSamples( data, dataOffset, dataLength );
         if ( FrameAvailable )
             OnFrameAvailable?.Invoke( this, null );
@@ -40,7 +43,12 @@ public class ConduitEncoder : ConduitCodecBase {
 
     /// <inheritdoc />
     public override void Dispose( ) {
+        if ( disposed )
+            return;
+
         opusEnc.Dispose( );
+        OnFrameAvailable = null;
+
         GC.SuppressFinalize( this );
         base.Dispose( );
     }
@@ -50,6 +58,8 @@ public class ConduitEncoder : ConduitCodecBase {
     /// </summary>
     /// <returns> The encoded frame, or "No Frame" if the buffer wasn't ready. </returns>
     public virtual ConduitCodecFrame GetFrame( ) {
+        if ( disposed )
+            throw new ObjectDisposedException( "this", "This encoder is disposed!" );
         if ( !FrameAvailable )
             return ConduitCodecFrame.EmptyFrame;
 

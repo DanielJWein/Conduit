@@ -8,3 +8,6 @@ global using OpusDotNet;
 global using NAudio.Wave;
 
 global using Conduit.Net.Connection;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo( "Conduit.Tests.dll" )]
