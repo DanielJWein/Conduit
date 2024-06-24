@@ -252,7 +252,6 @@ partial class ConduitClientForm {
     private Meter meterSocketHealth;
     private System.Windows.Forms.Timer BufferHealthTimer;
     private Label labelTitle;
-    private PictureBox conduitIcon;
     private ConduitVolumeSlider sliderVolume;
     private Button buttonOpacity;
     private Button buttonClose;
