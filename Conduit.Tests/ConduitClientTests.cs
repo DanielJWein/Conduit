@@ -30,9 +30,12 @@ public class ConduitClientTests {
     }
 
     [Test]
-    public void TestConnect( ) {
+    public async Task TestConnect( ) {
         _ = server.StartListening( );
-        client.Connect( );
+        Task t= Task.Run( ( ) => client.Connect( ) );
+        Thread.Sleep( WAIT_LONG );
+        server.UpdateClients( );
+        await t;
         if ( !client.Connected ) {
             Assert.Fail( "The client failed to connect." );
         }
@@ -44,9 +47,12 @@ public class ConduitClientTests {
     }
 
     [Test]
-    public void TestDisconnect( ) {
+    public async Task TestDisconnect( ) {
         _ = server.StartListening( );
-        client.Connect( );
+        Task t= Task.Run( ( ) => client.Connect( ) );
+        Thread.Sleep( WAIT_LONG );
+        server.UpdateClients( );
+        await t;
         if ( !client.Connected ) {
             Assert.Fail( "The client failed to connect." );
         }
@@ -57,6 +63,7 @@ public class ConduitClientTests {
 
         client.Disconnect( );
 
+        Thread.Sleep( WAIT_LONG );
         server.UpdateClients( );
 
         if ( server.Clients.Count == 1 ) {
