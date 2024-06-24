@@ -174,14 +174,8 @@ public class ConduitClient : IDisposable {
     /// </summary>
     /// <returns> True, if a control packet was processed </returns>
     /// <exception cref="DisconnectedException"> Thrown if the control packet was <see cref="ConduitControlPacket.CONTROL_DISCONNECT" /> </exception>
-    public bool Update( ) {
-        byte[] bufma = new byte[2];
-
-        bufma = serverConnection.Receive( 2, true );
-
-        //Process control packets
-        return processControlPacket( bufma );
-    }
+    public bool Update( )
+        => processControlPacket( serverConnection.Receive( 2, true ) );
 
     /// <summary>
     /// Clears all data in this server
