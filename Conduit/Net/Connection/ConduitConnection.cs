@@ -7,7 +7,7 @@
 /// <param name="socket"> The socket to send data to </param>
 /// <param name="who">    The IP Address of the client </param>
 public sealed class ConduitConnection( Socket socket, IPEndPoint who ) {
-    private object socketLock = new object( );
+    private object socketLock = new( );
 
     /// <summary>
     /// If true, this connection is closed and cannot be reused.
