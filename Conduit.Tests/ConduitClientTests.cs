@@ -36,7 +36,7 @@ public class ConduitClientTests {
         Thread.Sleep( WAIT_LONG );
         server.UpdateClients( );
         await t;
-        if ( !client.Connected ) {
+        if ( !client.Status.Connected ) {
             Assert.Fail( "The client failed to connect." );
         }
         Thread.Sleep( WAIT_LONG );
@@ -53,7 +53,7 @@ public class ConduitClientTests {
         Thread.Sleep( WAIT_LONG );
         server.UpdateClients( );
         await t;
-        if ( !client.Connected ) {
+        if ( !client.Status.Connected ) {
             Assert.Fail( "The client failed to connect." );
         }
         Thread.Sleep( WAIT_LONG );

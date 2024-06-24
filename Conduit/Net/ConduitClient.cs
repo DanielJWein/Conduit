@@ -13,23 +13,24 @@ namespace Conduit.Net;
 public class ConduitClient : IDisposable {
 
     /// <summary>
-    /// Holds the current track title and raises events when it is changed
+    /// Holds the status information for this client
     /// </summary>
-    public Alerter<string> CurrentTrackTitle = new( "(nothing)" );
+    public ConduitClientStatus Status;
 
     /// <summary>
     /// Holds the Maximum Frame Size
     /// </summary>
     protected const int MAX_FRAME_SIZE = 8192;
 
+    /// <summary>
+    /// Holds this client's connection to a server
+    /// </summary>
     protected ConduitConnection? serverConnection;
 
     /// <summary>
     /// Holds a local copy of the data
     /// </summary>
     private readonly ByteQueue data;
-
-    private bool connected = false;
 
     private bool disposedValue;
 
@@ -48,25 +49,9 @@ public class ConduitClient : IDisposable {
             );
 
         data = new( MAX_FRAME_SIZE );
-        CurrentTrackTitle.ValueChanged += ( object s, EventArgs e ) => OnTrackTitleChanged?.Invoke( s, e );
-    }
 
-    /// <summary>
-    /// Gets whether or not the client is connected
-    /// </summary>
-    public bool Connected {
-        private set {
-            if ( connected != value ) {
-                if ( value ) {
-                    OnConnected?.Invoke( this, EventArgs.Empty );
-                }
-                else {
-                    OnDisconnected?.Invoke( this, EventArgs.Empty );
-                }
-                connected = value;
-            }
-        }
-        get => connected;
+        Status = new( );
+        Status.CurrentTrackTitle.ValueChanged += ( object s, EventArgs e ) => OnTrackTitleChanged?.Invoke( s, e );
     }
 
     /// <summary>
@@ -110,7 +95,10 @@ public class ConduitClient : IDisposable {
         serverConnection = new( socket, ServerEndpoint );
         serverConnection.SendControlPacket( ConduitControlPacket.CONTROL_CLIENT_REQUEST_TRACK_TITLE );
         Update( );
-        Connected = true;
+        if ( !Status.Connected ) {
+            Status.Connected = true;
+            OnConnected?.Invoke( this, EventArgs.Empty );
+        }
     }
 
     /// <summary>
@@ -118,7 +106,10 @@ public class ConduitClient : IDisposable {
     /// </summary>
     public void Disconnect( ) {
         serverConnection?.Close( );
-        Connected = false;
+        if ( Status.Connected ) {
+            Status.Connected = false;
+            OnDisconnected?.Invoke( this, EventArgs.Empty );
+        }
     }
 
     /// <summary>
@@ -135,7 +126,10 @@ public class ConduitClient : IDisposable {
     /// </summary>
     /// <returns> A ConduitCodecFrame with the encoded Opus data. </returns>
     public ConduitCodecFrame GetFrame( ) {
-        if ( !Connected ) {
+        if ( disposedValue ) {
+            return null;
+        }
+        if ( !Status.Connected ) {
             return null;
         }
 
@@ -193,7 +187,10 @@ public class ConduitClient : IDisposable {
     /// </summary>
     /// <returns> True, if the packet was a control packet. </returns>
     private bool processControlPacket( byte[ ] data ) {
-        if ( !Connected ) {
+        if ( disposedValue ) {
+            return false;
+        }
+        if ( !Status.Connected ) {
             return false;
         }
 
@@ -220,7 +217,7 @@ public class ConduitClient : IDisposable {
                 //Read the control message fully.
                 serverConnection.Receive( control, 0, 2 );
                 try {
-                    CurrentTrackTitle.Value = serverConnection.GetString( );
+                    Status.CurrentTrackTitle.Value = serverConnection.GetString( );
                 }
                 catch ( SocketException ) {
                     Disconnect( );

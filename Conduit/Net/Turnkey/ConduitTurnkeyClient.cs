@@ -78,7 +78,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// Thrown if the client is connected and <paramref name="reconnect" /> is false.
     /// </exception>
     public void ChangeServer( IPEndPoint newServer, bool reconnect = false ) {
-        if ( Connected ) {
+        if ( Status.Connected ) {
             if ( reconnect ) {
                 Disconnect( );
                 ServerEndpoint = newServer;
@@ -147,7 +147,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// <param name="nil"> Not used </param>
     private void tick( object nil ) {
         while ( continueThread ) {
-            if ( Connected && !serverConnection.Closed ) {
+            if ( Status.Connected && !serverConnection.Closed ) {
                 //Get a frame (this also processes control packets)
                 try {
                     conduitDec.DecodeFrame( GetFrame( ) );

@@ -26,7 +26,7 @@ public partial class ConduitClientForm : Form {
         //And red on disconnect
         client.OnDisconnected += ( object? o, EventArgs e ) => Invoke( ( ) => labelTitle.ForeColor = Color.Red );
         //Change track title
-        client.OnTrackTitleChanged += ( object? o, EventArgs e ) => Invoke( ( ) => label1.Text = client.CurrentTrackTitle.Value );
+        client.OnTrackTitleChanged += ( object? o, EventArgs e ) => Invoke( ( ) => label1.Text = client.Status.CurrentTrackTitle.Value );
         //Copy slider volume to client volume
         sliderVolume.VolumeChanged += ( object? o, EventArgs e ) => client.Volume = sliderVolume.Volume;
 
@@ -42,7 +42,7 @@ public partial class ConduitClientForm : Form {
     /// Connects to the server </summary> <param name="sender"> Unused </param> <param name="e">
     /// Unused </param>
     private void clickConnect( object sender, EventArgs e ) {
-        if ( client.Connected )
+        if ( client.Status.Connected )
             client.Disconnect( );
 
         IPAddress? addr = ConduitClientFormHelpers.FindIPAddress( textboxHost.Text);
