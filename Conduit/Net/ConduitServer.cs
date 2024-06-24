@@ -99,23 +99,23 @@ public class ConduitServer : IDisposable {
     }
 
     /// <summary>
+    /// Disconnects a specified client
+    /// </summary>
+    public void DisconnectClient( ConduitConnection who ) {
+        lock ( clientele ) {
+            who.Close( );
+            OnClientDisconnected?.Invoke( this, new( who.GetAddress( ) ) );
+            clientele.RemoveAll( x => x.Closed );
+        }
+    }
+
+    /// <summary>
     /// Destroys this object.
     /// </summary>
     public void Dispose( ) {
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
         Dispose( disposing: true );
         GC.SuppressFinalize( this );
-    }
-
-    /// <summary>
-    /// Disconnects a specified client
-    /// </summary>
-    public void Kill( ConduitConnection who ) {
-        lock ( clientele ) {
-            who.Close( );
-            OnClientDisconnected?.Invoke( this, new( who.GetAddress( ) ) );
-            clientele.RemoveAll( x => x.Closed );
-        }
     }
 
     /// <summary>

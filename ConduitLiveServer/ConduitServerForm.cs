@@ -94,7 +94,7 @@ public partial class ConduitServerForm : Form {
         for ( int i = 0; i < server.Clients.Count; i++ ) {
             ConduitConnection? x = server.Clients[ i ];
             if ( x.GetAddress( ).ToString( ) == selectedItem )
-                server.Kill( x );
+                server.DisconnectClient( x );
         }
     }
 
