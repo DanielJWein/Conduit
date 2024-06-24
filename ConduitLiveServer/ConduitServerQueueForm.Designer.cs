@@ -47,7 +47,7 @@ partial class ConduitServerQueueForm {
         TitleLabel.Size =  new Size( 227, 32 ) ;
         TitleLabel.TabIndex =  1 ;
         TitleLabel.Text =  "Conduit Live Queue" ;
-        TitleLabel.MouseDown +=  TitleLabel_MouseDown ;
+        TitleLabel.MouseDown +=  titleLabel_MouseDown ;
         // 
         // queueBox
         // 

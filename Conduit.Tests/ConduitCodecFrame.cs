@@ -8,7 +8,7 @@ public class ConduitCodecFrameTests {
     [Test]
     public void GetPacket( ) {
         int dataLength = 508;
-        byte[] data = TestHelpers.getRandomBytes(dataLength);
+        byte[] data = TestHelpers.GetRandomBytes(dataLength);
         frame = new( data );
 
         byte[] packet = frame.GetPacket( );
@@ -31,7 +31,7 @@ public class ConduitCodecFrameTests {
 
     [Test]
     public void NotEmptyFrameIsNotEmpty( ) {
-        byte[] data = TestHelpers.getRandomBytes(512);
+        byte[] data = TestHelpers.GetRandomBytes(512);
         frame = new( data );
 
         if ( frame.IsEmpty ) {
@@ -44,7 +44,7 @@ public class ConduitCodecFrameTests {
     [Test]
     public void NotEmptyFrameIsNotEmptyEXTREME( ) {
         for ( int i = 9; i < 256; i++ ) {
-            byte[] data = TestHelpers.getRandomBytes(i);
+            byte[] data = TestHelpers.GetRandomBytes(i);
             frame = new( data );
 
             if ( frame.IsEmpty ) {
@@ -65,7 +65,7 @@ Frame SendDataLength: {frame.RealDataLength}
 
     [Test]
     public void TestCreateWithBase64Data( ) {
-        byte[] data =TestHelpers. getRandomBytes(512);
+        byte[] data =TestHelpers. GetRandomBytes(512);
 
         string b64Data = System.Convert.ToBase64String(data);
         frame = new( b64Data );
@@ -83,7 +83,7 @@ Frame SendDataLength: {frame.RealDataLength}
 
     [Test]
     public void TestCreateWithBinaryData( ) {
-        byte[] data =TestHelpers. getRandomBytes(512);
+        byte[] data =TestHelpers. GetRandomBytes(512);
 
         frame = new ConduitCodecFrame( data, 512 );
 

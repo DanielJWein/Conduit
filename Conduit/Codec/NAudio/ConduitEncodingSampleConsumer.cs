@@ -34,9 +34,9 @@ public sealed class ConduitEncodingSampleConsumer(IWaveProvider wp) : ConduitEnc
         //Get the number of milliseconds since the last frame sent
         double timeSinceLast = (now - lastFrameTime).TotalMilliseconds;
         //Get the number of frames that should have elapsed since then
-        double frameCount = Math.Floor(timeSinceLast / frameDuration);
+        double frameCount = Math.Floor(timeSinceLast / FrameDuration);
         //Subtract the frames we will send from the time left.
-        timeSinceLast -= frameCount * frameDuration;
+        timeSinceLast -= frameCount * FrameDuration;
         lastFrameTime = now - TimeSpan.FromMilliseconds(timeSinceLast);
 
         return (int)frameCount;

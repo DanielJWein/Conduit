@@ -2,7 +2,7 @@
 
 internal static class ConduitClientFormHelpers {
 
-    internal static IPAddress? findIPAddress( string txt ) {
+    internal static IPAddress? FindIPAddress( string txt ) {
         IPAddress? addr = null;
         if ( txt.Any( c => char.IsLetter( c ) ) ) {
             addr = Dns.GetHostEntry( txt ).AddressList.FirstOrDefault( );

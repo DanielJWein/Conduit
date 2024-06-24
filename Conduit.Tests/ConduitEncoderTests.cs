@@ -7,7 +7,7 @@ using NAudio.Wave;
 namespace Conduit.Tests;
 
 public class ConduitEncoderTests {
-    private const int PcmFrameMaxSize = 60 * 192;
+    private const int PCM_FRAME_MAX_SIZE = 60 * 192;
 
     private ConduitEncoder encoder;
 
@@ -31,7 +31,7 @@ public class ConduitEncoderTests {
         encoder.OnFrameAvailable += ( object? o, EventArgs e ) => frameAvailableRaised = true;
 
         //Add some random data to the encoder
-        encoder.AddSamples( TestHelpers.getRandomBytes( PcmFrameMaxSize ), 0, PcmFrameMaxSize );
+        encoder.AddSamples( TestHelpers.GetRandomBytes( PCM_FRAME_MAX_SIZE ), 0, PCM_FRAME_MAX_SIZE );
 
         //Test that frameAvailableRaised was set.
         if ( !frameAvailableRaised ) {
@@ -45,7 +45,7 @@ public class ConduitEncoderTests {
     public void GetFrame( ) {
         ConduitCodecFrame? frame = null;
         encoder.OnFrameAvailable += ( object? o, EventArgs e ) => frame = encoder.GetFrame( );
-        encoder.AddSamples( TestHelpers.getRandomBytes( PcmFrameMaxSize ), 0, PcmFrameMaxSize );
+        encoder.AddSamples( TestHelpers.GetRandomBytes( PCM_FRAME_MAX_SIZE ), 0, PCM_FRAME_MAX_SIZE );
 
         if ( frame is null )
             Assert.Fail( "The frame was null." );

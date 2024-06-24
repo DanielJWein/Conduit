@@ -33,7 +33,7 @@ public abstract class ConduitCodecBase : IDisposable {
     protected ConduitCodecBase( ) {
         disposed = false;
 
-        frameDuration = 20;
+        FrameDuration = 20;
 
         Buffer = new( WaveFmt ) {
             BufferDuration = TimeSpan.FromSeconds( 6 ),
@@ -42,7 +42,7 @@ public abstract class ConduitCodecBase : IDisposable {
             ReadFully = true
         };
 
-        pcmFrame = new byte[ (int) ( frameDuration * 192 /* 192kbps */ ) ];
+        pcmFrame = new byte[ (int) ( FrameDuration * 192 /* 192kbps */ ) ];
         createOpusBuffer( );
     }
 
@@ -59,7 +59,7 @@ public abstract class ConduitCodecBase : IDisposable {
     /// <summary>
     /// The frame size, in milliseconds.
     /// </summary>
-    protected float frameDuration { private set; get; }
+    protected float FrameDuration { private set; get; }
 
     /// <summary>
     /// Changes the frame duration of this codec.
@@ -71,8 +71,8 @@ public abstract class ConduitCodecBase : IDisposable {
         if ( disposed )
             throw new ObjectDisposedException( "this", "This item is disposed." );
 
-        frameDuration = newFrameDuration;
-        pcmFrame = new byte[ (int) ( frameDuration * 192 ) ];
+        FrameDuration = newFrameDuration;
+        pcmFrame = new byte[ (int) ( FrameDuration * 192 ) ];
     }
 
     /// <summary>

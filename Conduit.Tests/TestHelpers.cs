@@ -2,7 +2,7 @@
 
 internal static class TestHelpers {
 
-    internal static byte[ ] getRandomBytes( int length ) {
+    internal static byte[ ] GetRandomBytes( int length ) {
         byte[] data = new byte[length];
 
         Random rnd = new();

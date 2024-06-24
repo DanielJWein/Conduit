@@ -26,7 +26,7 @@ public class AlertingBufferedWaveProviderTests {
         abwp.OnBufferOut += ( object? e, EventArgs o ) => raisedOut = true;
         abwp.OnBufferLow += ( object? e, EventArgs o ) => raisedLow = true;
 
-        byte[] data = TestHelpers.getRandomBytes(4096);
+        byte[] data = TestHelpers.GetRandomBytes(4096);
 
         abwp.AddSamples( data, 0, 4096 );
 

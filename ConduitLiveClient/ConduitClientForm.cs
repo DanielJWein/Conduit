@@ -45,7 +45,7 @@ public partial class ConduitClientForm : Form {
         if ( client.Connected )
             client.Disconnect( );
 
-        IPAddress? addr = ConduitClientFormHelpers.findIPAddress( textboxHost.Text);
+        IPAddress? addr = ConduitClientFormHelpers.FindIPAddress( textboxHost.Text);
 
         if ( addr is null ) {
             labelTitle.Text = "Invalid host!";

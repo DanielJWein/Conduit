@@ -52,7 +52,7 @@ public partial class ConduitServerQueueForm : Form {
         label2.Text = readers.Count( ).ToString( );
     }
 
-    private void TitleLabel_MouseDown( object sender, MouseEventArgs e ) {
+    private void titleLabel_MouseDown( object sender, MouseEventArgs e ) {
         mouseDelta = new Point( Cursor.Position.X - Location.X, Cursor.Position.Y - Location.Y );
         TitleLabel.MouseMove += onTitleMouseMove;
     }

@@ -12,7 +12,7 @@ public class ByteQueueTests {
 
     [Test]
     public void Test( ) {
-        byte[] data = TestHelpers.getRandomBytes(1024);
+        byte[] data = TestHelpers.GetRandomBytes(1024);
 
         //Invalid count
         Assert.Throws<ArgumentOutOfRangeException>( ( ) => queue.Write( data, 0, -1 ),

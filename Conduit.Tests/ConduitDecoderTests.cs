@@ -3,7 +3,7 @@
 namespace Conduit.Tests;
 
 public class ConduitDecoderTests {
-    private const string EncodedData = @"/E16UiUU6VPurfhc6cizbSUXpP1TY+khblpbYlNYrCg3nLCXbhPrn9E3sXtBTB65Ilh9sKZCFi0wIzTN7zWMw++YJT8zFE677KmofvIWZeEJTwqWuykxkiThLkfn8CMV";
+    private const string ENCODED_DATA = @"/E16UiUU6VPurfhc6cizbSUXpP1TY+khblpbYlNYrCg3nLCXbhPrn9E3sXtBTB65Ilh9sKZCFi0wIzTN7zWMw++YJT8zFE677KmofvIWZeEJTwqWuykxkiThLkfn8CMV";
 
     private ConduitDecoder decoder;
 
@@ -45,7 +45,7 @@ public class ConduitDecoderTests {
         }
 
         //Actually decode the frame
-        decoder.DecodeFrame( new( EncodedData ) );
+        decoder.DecodeFrame( new( ENCODED_DATA ) );
 
         //We expect that more than zero bytes were added to the buffer.
         if ( decoder.Buffer.BufferedBytes <= 0 ) {
