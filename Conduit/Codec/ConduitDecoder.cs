@@ -34,19 +34,19 @@ public class ConduitDecoder : ConduitCodecBase {
             return;
 
         opusFrame = Convert.FromBase64String( Frame.EncodedData );
-        int encL =0;
         try {
-            encL = opusDec.Decode( opusFrame,
+            int encL = opusDec.Decode( opusFrame,
                                   opusFrame.Length,
                                   pcmFrame,
                                   pcmFrame.Length );
+
+            Buffer.AddSamples( pcmFrame, 0, encL );
+
+            OnDecodedFrame?.Invoke( this, EventArgs.Empty );
         }
         catch ( OpusException ) {
             return;
         }
-        Buffer.AddSamples( pcmFrame, 0, encL );
-
-        OnDecodedFrame?.Invoke( this, EventArgs.Empty );
     }
 
     /// <inheritdoc />
