@@ -29,9 +29,9 @@ public class ConduitServer : IDisposable {
 
     private readonly List<ConduitConnection> clientele = new( 16 );
 
-    private bool disposedValue;
+    private readonly ServerListener listener;
 
-    private ServerListener listener;
+    private bool disposedValue;
 
     /// <summary>
     /// Creates a new ConduitServer
@@ -103,21 +103,6 @@ public class ConduitServer : IDisposable {
     /// Run when the track title is changed.
     /// </summary>
     public event EventHandler OnTrackTitleChanged;
-
-    /// <summary>
-    /// Checks to see if clients have sent control packets.
-    /// </summary>
-    public void UpdateClients( ) {
-        for ( int i = 0; i < clientele.Count; i++ ) {
-            ConduitConnection client = clientele[ i ];
-            try {
-                handleControlPacket( client );
-            }
-            catch {
-                client.Close( );
-            }
-        }
-    }
 
     /// <summary>
     /// Disconnects all connected clients.
@@ -212,6 +197,21 @@ public class ConduitServer : IDisposable {
     /// Stops listening for new connections.
     /// </summary>
     public void StopListening( ) => listener.StopListening( );
+
+    /// <summary>
+    /// Checks to see if clients have sent control packets.
+    /// </summary>
+    public void UpdateClients( ) {
+        for ( int i = 0; i < clientele.Count; i++ ) {
+            ConduitConnection client = clientele[ i ];
+            try {
+                handleControlPacket( client );
+            }
+            catch {
+                client.Close( );
+            }
+        }
+    }
 
     /// <summary>
     /// Destroys this object.

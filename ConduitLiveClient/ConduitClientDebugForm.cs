@@ -1,4 +1,5 @@
 ﻿#if DEBUG
+
 using System.Net.Sockets;
 using System.Text;
 
@@ -12,7 +13,7 @@ public partial class ConduitClientDebugForm : Form {
     /// <summary>
     /// Holds the top 512 bytes of Socket.Available
     /// </summary>
-    private byte[ ] data = new byte[ 512 ];
+    private readonly byte[ ] data = new byte[ 512 ];
 
     /// <summary>
     /// Creates the ConduitClientDebugForm
