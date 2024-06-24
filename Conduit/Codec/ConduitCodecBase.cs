@@ -71,6 +71,15 @@ public abstract class ConduitCodecBase : IDisposable {
         if ( disposed )
             throw new ObjectDisposedException( "this", "This item is disposed." );
 
+        FrameDuration = newFrameDuration switch {
+            2.5f => 2.5f,
+            5.0f => 5.0f,
+            10.0f => 10.0f,
+            20.0f => 20.0f,
+            60.0f => 60.0f,
+            _ => throw new Exception( "The selected timeframe is not valid!" )
+        };
+
         FrameDuration = newFrameDuration;
         pcmFrame = new byte[ (int) ( FrameDuration * 192 ) ];
     }
