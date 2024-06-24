@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Conduit.Codec.NAudio.ConduitEncodingSampleConsumer">
+    <Position X="14.25" Y="11" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAIAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Codec\NAudio\ConduitEncodingSampleConsumer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Conduit.Codec.ConduitCodecBase">
+    <Position X="16.5" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACIAAABAQCAAIAAAAAAAABBAAAAEAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Codec\ConduitCodecBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Conduit.Codec.ConduitDecoder">
+    <Position X="16.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAgAAAEAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Codec\ConduitDecoder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Conduit.Codec.ConduitEncoder">
+    <Position X="14.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAEAAAACAAAAEAAAAAAAAAAAAACAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Codec\ConduitEncoder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Conduit.Net.Connection.ServerListener" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAEAAAAAAAAAABACAEAAAAIA=</HashCode>
+      <FileName>Net\Connection\ServerListener.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Conduit.Net.Turnkey.ConduitTurnkeyClient">
+    <Position X="10.5" Y="9.25" Width="2" />
+    <AssociationLine Name="conduitDec" Type="Conduit.Codec.ConduitDecoder" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.5" Y="10.625" />
+        <Point X="15.417" Y="10.625" Type="JumpStart" />
+        <Point X="15.583" Y="10.625" Type="JumpEnd" />
+        <Point X="17.5" Y="10.625" />
+        <Point X="17.5" Y="9.521" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.055" Y="0.033" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAIEgAAACAAAACAgQAAAAAAASMAAQAAAIIAAAAAAEA=</HashCode>
+      <FileName>Net\Turnkey\ConduitTurnkeyClient.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="conduitDec" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Conduit.Net.Turnkey.ConduitTurnkeyServer">
+    <Position X="7.5" Y="9.75" Width="2" />
+    <AssociationLine Name="cesc" Type="Conduit.Codec.NAudio.ConduitEncodingSampleConsumer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.5" Y="12.204" />
+        <Point X="8.5" Y="13.944" />
+        <Point X="15.562" Y="13.944" />
+        <Point X="15.562" Y="12.877" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgACAAAAAIAAAAACAAAAEAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Net\Turnkey\ConduitTurnkeyServer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="cesc" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Conduit.Net.ConduitClient">
+    <Position X="10.5" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQhEAJAACAAQAAQAAAAAIAAAIAAAUIAAIAwAgAAAAA=</HashCode>
+      <FileName>Net\ConduitClient.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="data" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Conduit.Net.ConduitServer">
+    <Position X="7.5" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAIimAABAAAEGAAAAgAAKAAAAAAAAAAEiCASIA=</HashCode>
+      <FileName>Net\ConduitServer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="listener" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Conduit.Util.ByteQueue">
+    <Position X="14" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACACAAAAAAiAAAAAAAAAEBACAFAAAA=</HashCode>
+      <FileName>Util\ByteQueue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
