@@ -78,14 +78,14 @@ public class ConduitClientTests {
         bool eventRaised = false;
 
         _ = server.StartListening( );
-        server.TrackTitle.Value = "Test Beats vol 112041204.0";
+        server.Status.TrackTitle.Value = "Test Beats vol 112041204.0";
         Task t= Task.Run( ( ) => client.Connect( ) );
         Thread.Sleep( WAIT_LONG );
         server.UpdateClients( );
         await t;
 
         client.OnTrackTitleChanged += ( object? o, EventArgs e ) => eventRaised = true;
-        server.TrackTitle.Value = "Test Beats vol 112041205.0";
+        server.Status.TrackTitle.Value = "Test Beats vol 112041205.0";
         client.Update( );
         Thread.Sleep( WAIT_LONG );
 

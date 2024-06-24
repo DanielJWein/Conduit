@@ -35,7 +35,7 @@ public partial class ConduitServerForm : Form {
         fillConnections.Start( );
         StatusLabel.Text = "OK";
 
-        afq.OnNewReaderPlaying += ( object? o, EventArgs e ) => Invoke( ( ) => textBox1.Text = server.TrackTitle.Value = afq.PlayingFile.Substring( afq.PlayingFile.LastIndexOf( '\\' ) + 1 ) );
+        afq.OnNewReaderPlaying += ( object? o, EventArgs e ) => Invoke( ( ) => textBox1.Text = server.Status.TrackTitle.Value = afq.PlayingFile.Substring( afq.PlayingFile.LastIndexOf( '\\' ) + 1 ) );
         buttonViewQueue.Click += ( object? o, EventArgs e ) => new ConduitServerQueueForm( this ).Show( );
         buttonClearQueue.Click += ( object? o, EventArgs e ) => afq.Clear( );
         buttonClose.Click += ( object? o, EventArgs e ) => Application.Exit( );
@@ -103,9 +103,9 @@ public partial class ConduitServerForm : Form {
                 ? "OK (Listening)"
                 : "OK (Stopped)";
 
-        labelDataUnique.Text = "Total Data: " + ConduitServerFormHelpers.CounterToStr( server.DataCounter );
-        labelDataTotal.Text = "Total Data Sent: " + ConduitServerFormHelpers.CounterToStr( server.TotalDataCounter );
-        labelBitrate.Text = $"Average Bitrate: {server.ExpectedBitrate:n0}";
+        labelDataUnique.Text = "Total Data: " + ConduitServerFormHelpers.CounterToStr( server.Status.DataCounter );
+        labelDataTotal.Text = "Total Data Sent: " + ConduitServerFormHelpers.CounterToStr( server.Status.TotalDataCounter );
+        labelBitrate.Text = $"Average Bitrate: {server.Status.ExpectedBitrate:n0}";
     }
 
     private void onStopListeningClick( object? sender, EventArgs e ) {

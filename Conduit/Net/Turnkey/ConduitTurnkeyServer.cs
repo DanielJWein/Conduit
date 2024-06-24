@@ -23,7 +23,7 @@ public sealed class ConduitTurnkeyServer : ConduitServer, IDisposable {
     /// <summary>
     /// Runs the update function
     /// </summary>
-    private readonly Thread updateThread;
+    private readonly Thread workerThread;
 
     /// <summary>
     /// If true, will kill the thread.
@@ -36,10 +36,10 @@ public sealed class ConduitTurnkeyServer : ConduitServer, IDisposable {
     /// <param name="wpr"> The input audio WaveProvider </param>
     public ConduitTurnkeyServer( IWaveProvider wpr ) : base( ) {
         cesc = new( wpr );
-        updateThread = new Thread( update ) {
+        workerThread = new Thread( update ) {
             Name = "Conduit Turnkey Server"
         };
-        updateThread.Start( );
+        workerThread.Start( );
     }
 
     /// <summary>
@@ -49,6 +49,7 @@ public sealed class ConduitTurnkeyServer : ConduitServer, IDisposable {
     protected override void Dispose( bool disposing ) {
         if ( disposing ) {
             killThread = true;
+            workerThread.Join( );
         }
         Close( );
         cesc.Dispose( );

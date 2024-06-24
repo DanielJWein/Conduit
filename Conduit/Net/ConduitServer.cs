@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 using Conduit.Codec;
 using Conduit.Net.Events;
-using Conduit.Util;
 
 namespace Conduit.Net;
 
@@ -13,14 +12,14 @@ namespace Conduit.Net;
 public class ConduitServer : IDisposable {
 
     /// <summary>
-    /// If true, the server will send empty packets.
+    /// Holds server configuration
     /// </summary>
-    public bool SendEmptyPackets = false;
+    public ConduitServerOptions Configuration;
 
     /// <summary>
-    /// The track title that is currently playing
+    /// Holds the server's status
     /// </summary>
-    public Alerter<string> TrackTitle = new( );
+    public ConduitServerStatus Status;
 
     /// <summary>
     /// Holds the server's socket
@@ -49,7 +48,10 @@ public class ConduitServer : IDisposable {
             OnClientConnected?.Invoke( s, args );
         };
 
-        TrackTitle.ValueChanged += ( object s, EventArgs e ) => Send( ConduitControlPacket.CONTROL_TRACK_TITLE_CHANGED );
+        Configuration = new( );
+        Status = new( );
+
+        Status.TrackTitle.ValueChanged += ( object s, EventArgs e ) => Send( ConduitControlPacket.CONTROL_TRACK_TITLE_CHANGED );
     }
 
     /// <summary>
@@ -63,21 +65,6 @@ public class ConduitServer : IDisposable {
     /// Holds a list of all connected clients
     /// </summary>
     public IReadOnlyList<ConduitConnection> Clients => clientele;
-
-    /// <summary>
-    /// Holds the amount of data the server has multicasted (before duplication to clients)
-    /// </summary>
-    public ulong DataCounter { get; protected set; } = 0;
-
-    /// <summary>
-    /// The approximate bitrate of the server's stream
-    /// </summary>
-    public double ExpectedBitrate { get; protected set; } = 1;
-
-    /// <summary>
-    /// Holds the amount of data the server has multicasted (after duplication to clients)
-    /// </summary>
-    public ulong TotalDataCounter { get; protected set; } = 0;
 
     /// <summary>
     /// Raised when a client connects
@@ -143,24 +130,24 @@ public class ConduitServer : IDisposable {
     /// </summary>
     /// <param name="data"> The data to send </param>
     public void Send( ConduitCodecFrame data ) {
-        if ( data.IsEmpty && !SendEmptyPackets )
+        if ( data.IsEmpty && !Configuration.SendEmptyPackets )
             return;
         lock ( data ) {
             //Number of frames in a second
             double FramesPerSecond = 1000.0 / 60.0;
             //Get expected bitrate
-            ExpectedBitrate = ( data.RealDataLength - 1 ) * FramesPerSecond * 8;
+            Status.ExpectedBitrate = ( data.RealDataLength - 1 ) * FramesPerSecond * 8;
 
             //Lock clients to prevent new connections
             lock ( clientele ) {
-                DataCounter += data.RealDataLength + 4u;
+                Status.DataCounter += data.RealDataLength + 4u;
                 UpdateClients( );
                 clientele.RemoveAll( x => x.Closed );
                 for ( int i = 0; i < clientele.Count; i++ ) {
                     ConduitConnection client = clientele[ i ];
                     try {
                         client.SendFrame( data );
-                        TotalDataCounter += data.RealDataLength + 4u;
+                        Status.TotalDataCounter += data.RealDataLength + 4u;
                     }
                     catch {
                         client.Close( );
@@ -182,7 +169,7 @@ public class ConduitServer : IDisposable {
                 c.SendControlPacket( ControlPacket );
                 //If we're sending the track title, send the track title.
                 if ( ControlPacket.CheckAgainst( ConduitControlPacket.CONTROL_TRACK_TITLE_CHANGED ) ) {
-                    c.SendString( TrackTitle );
+                    c.SendString( Status.TrackTitle );
                 }
             }
         }
@@ -247,7 +234,7 @@ public class ConduitServer : IDisposable {
             }
             else if ( controlData.CheckAgainst( ConduitControlPacket.CONTROL_CLIENT_REQUEST_TRACK_TITLE ) ) {
                 client.SendControlPacket( ConduitControlPacket.CONTROL_TRACK_TITLE_CHANGED );
-                client.SendString( TrackTitle.Value );
+                client.SendString( Status.TrackTitle.Value );
             }
         }
     }
