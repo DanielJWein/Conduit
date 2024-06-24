@@ -23,7 +23,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// <summary>
     /// Holds the decoder for this client
     /// </summary>
-    private readonly ConduitDecoder conduitDec = new( );
+    private readonly ConduitDecoder conduitDec;
 
     /// <summary>
     /// Holds the update timer
@@ -33,33 +33,38 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// <summary>
     /// Holds the audio output
     /// </summary>
-    private readonly WaveOutEvent woes = new( );
+    private readonly WaveOutEvent woes;
 
     /// <summary>
     /// The thread will continue running while this is true.
     /// </summary>
-    private bool continueThread = true;
+    private bool continueThread;
 
     /// <summary>
     /// Creates a new ConduitTurnkeyClient
     /// </summary>
     public ConduitTurnkeyClient( string address, ushort port = 32662 ) : base( address, port ) {
+        conduitDec = new( );
         conduitDec.Buffer.BufferDuration = TimeSpan.FromSeconds( 10 );
         conduitDec.Buffer.BufferLowThreshold = TimeSpan.FromSeconds( 5 );
         conduitDec.Buffer.OnBufferOut += onBufferOutAsync;
 
-        updateThread = new( update_thread ) {
+        continueThread = true;
+
+        updateThread = new( tick ) {
             Name = "Conduit Turnkey Client Thread"
         };
         updateThread.Start( );
 
-        woes.DeviceNumber = -1;
-        woes.DesiredLatency = 250;
-        woes.NumberOfBuffers = 2;
-        woes.Volume = 0.125f;
+        woes = new( ) {
+            DeviceNumber = -1,
+            DesiredLatency = 250,
+            NumberOfBuffers = 2,
+            Volume = 0.125f
+        };
         woes.Init( conduitDec.Buffer );
 
-        _ = Task.Run( setupAsync );
+        _ = Task.Run( fillBufferAndPlay );
     }
 
     /// <summary>
@@ -131,7 +136,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// <summary>
     /// Runs the setup task for the WaveOutEvent
     /// </summary>
-    private async void setupAsync( ) {
+    private async void fillBufferAndPlay( ) {
         await Task.Delay( (int) conduitDec.Buffer.BufferLowThreshold.TotalMilliseconds );
         woes.Play( );
     }
@@ -140,7 +145,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// Updates this client
     /// </summary>
     /// <param name="nil"> Not used </param>
-    private void update_thread( object nil ) {
+    private void tick( object nil ) {
         while ( continueThread ) {
             if ( Connected && !serverConnection.Closed ) {
                 //Get a frame (this also processes control packets)
