@@ -55,13 +55,6 @@ public class ConduitServer : IDisposable {
     }
 
     /// <summary>
-    /// Destroys this object.
-    /// </summary>
-    ~ConduitServer( ) {
-        Dispose( disposing: false );
-    }
-
-    /// <summary>
     /// Holds a list of all connected clients
     /// </summary>
     public IReadOnlyList<ConduitConnection> Clients => clientele;
