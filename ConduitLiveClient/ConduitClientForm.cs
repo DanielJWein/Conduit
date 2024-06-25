@@ -17,6 +17,7 @@ public partial class ConduitClientForm : Form {
     private PointF mouseDelta = new( );
 
     public ConduitClientForm( ) {
+        Thread.CurrentThread.Name = "Conduit Client UI Thread";
         InitializeComponent( );
 
         //Create client and hook events

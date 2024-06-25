@@ -98,12 +98,13 @@ public class ConduitClient : IDisposable {
         };
         socket.Connect( ServerEndpoint );
         serverConnection = new( socket, ServerEndpoint );
-        serverConnection.SendControlPacket( ConduitControlPacket.CONTROL_CLIENT_REQUEST_TRACK_TITLE );
-        Update( );
         if ( !Status.Connected ) {
             Status.Connected = true;
             OnConnected?.Invoke( this, EventArgs.Empty );
         }
+        serverConnection.SendControlPacket( ConduitControlPacket.CONTROL_CLIENT_REQUEST_TRACK_TITLE );
+        Update( );
+        SetReady( true );
     }
 
     /// <summary>
@@ -133,6 +134,17 @@ public class ConduitClient : IDisposable {
     /// </summary>
     /// <returns> A ConduitCodecFrame with the encoded Opus data. </returns>
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
+    /// <exception cref="ConduitException">
+    /// Thrown if the socket data desynchronizes (see remarks).
+    /// </exception>
+    /// <remarks>
+    /// A <see cref="ConduitException" /> is thrown if the packet size of a received packet exceeds <see cref="MAX_FRAME_SIZE" />.
+    ///
+    /// This is usually an indication of a desynchronization, and could lead to some... choice...
+    /// audio being played in bad circumstances.
+    ///
+    /// In order to not destroy your ears, we give up instead.
+    /// </remarks>
     public ConduitCodecFrame GetFrame( ) {
         DisposedHelpers.ThrowIfDisposed( disposed );
         if ( !Status.Connected ) {
@@ -144,6 +156,15 @@ public class ConduitClient : IDisposable {
             byte[ ] bufma = new byte[2];
             //Eat the packet header
             serverConnection.Receive( bufma, 0, 2 );
+
+            if ( bufma[ 0 ] != 1 ) {
+                throw new ConduitPacketException( "The header version was not 1!" );
+            }
+            if ( bufma[ 1 ] != 0 ) {
+                //This is a control packet.
+                processControlPacket( bufma );
+            }
+
             //Get the packet length
             serverConnection.Receive( bufma, 0, 2 );
 
@@ -193,6 +214,20 @@ public class ConduitClient : IDisposable {
 
             disposed = true;
         }
+    }
+
+    protected void SetReady( bool ready ) {
+        if ( serverConnection.Ready != ready ) {
+            if ( ready ) {
+                //Send that we are ready.
+                serverConnection.SendControlPacket( ConduitControlPacket.CONTROL_CLIENT_READY );
+            }
+            else {
+                serverConnection.SendControlPacket( ConduitControlPacket.CONTROL_CLIENT_NOT_READY );
+            }
+        }
+
+        serverConnection.Ready = ready;
     }
 
     /// <summary>

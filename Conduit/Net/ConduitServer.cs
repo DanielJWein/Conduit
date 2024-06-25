@@ -147,6 +147,9 @@ public class ConduitServer : IDisposable {
                 clientele.RemoveAll( x => x.Closed );
                 for ( int i = 0; i < clientele.Count; i++ ) {
                     ConduitConnection client = clientele[ i ];
+                    if ( !client.Ready ) {
+                        continue;
+                    }
                     try {
                         client.SendFrame( data );
                         Status.TotalDataCounter += data.RealDataLength + 4u;
@@ -251,6 +254,12 @@ public class ConduitServer : IDisposable {
             else if ( controlData.CheckAgainst( ConduitControlPacket.CONTROL_CLIENT_REQUEST_TRACK_TITLE ) ) {
                 client.SendControlPacket( ConduitControlPacket.CONTROL_TRACK_TITLE_CHANGED );
                 client.SendString( Status.TrackTitle.Value );
+            }
+            else if ( controlData.CheckAgainst( ConduitControlPacket.CONTROL_CLIENT_READY ) ) {
+                client.Ready = true;
+            }
+            else if ( controlData.CheckAgainst( ConduitControlPacket.CONTROL_CLIENT_NOT_READY ) ) {
+                client.Ready = false;
             }
         }
     }

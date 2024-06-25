@@ -18,4 +18,6 @@ Packet Format:
         1: Server Playing (22 will be sent after this message.)
         2: Server Track Title Changed (read ushort for length of next UTF8->Base64 title stream)
        8X: Client Requests
+        0: Ready (start sending me data!)
+        1: Not Ready (stop sending me data!)
         2: Request Track title (send me 0x22)

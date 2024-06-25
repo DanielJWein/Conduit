@@ -34,6 +34,16 @@ public static class ConduitControlPacket {
     /// <summary>
     /// The client requests the track title.
     /// </summary>
+    public static byte[ ] CONTROL_CLIENT_NOT_READY => [ 0x01, 0x81 ];
+
+    /// <summary>
+    /// The client requests the track title.
+    /// </summary>
+    public static byte[ ] CONTROL_CLIENT_READY => [ 0x01, 0x80 ];
+
+    /// <summary>
+    /// The client requests the track title.
+    /// </summary>
     public static byte[ ] CONTROL_CLIENT_REQUEST_TRACK_TITLE => [ 0x01, 0x82 ];
 
     /// <summary>

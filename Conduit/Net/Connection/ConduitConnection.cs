@@ -15,6 +15,11 @@ public sealed class ConduitConnection( Socket socket, IPEndPoint who ) {
     public bool Closed { get; private set; } = false;
 
     /// <summary>
+    /// True, if the client is ready.
+    /// </summary>
+    public bool Ready { get; set; } = false;
+
+    /// <summary>
     /// Raised when the connection is disconnected.
     /// </summary>
     public event EventHandler OnDisconnected;

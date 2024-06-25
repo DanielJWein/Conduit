@@ -155,9 +155,9 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     private void tick( object nil ) {
         while ( continueThread ) {
             DisposedHelpers.ThrowIfDisposed( disposed );
-            if ( Status.Connected && !serverConnection.Closed ) {
-                //Get a frame (this also processes control packets)
+            if ( Status.Connected && !serverConnection.Closed && serverConnection.Ready ) {
                 try {
+                    Update( );
                     conduitDec.DecodeFrame( GetFrame( ) );
                 }
                 catch ( DisconnectedException ) {
