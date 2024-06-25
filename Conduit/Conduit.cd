@@ -70,25 +70,25 @@
   <Class Name="Conduit.Net.ConduitClient">
     <Position X="10.5" Y="4.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAQhEAIEACAAAAAQAAAAAIAAAIAAAUIAAIAwAgAAAAA=</HashCode>
+      <HashCode>AAYhEAIEACAAAAAQAAAAAIAAAIAAAUIAAIAwAAAAAAA=</HashCode>
       <FileName>Net\ConduitClient.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="data" />
       <Field Name="Status" />
+      <Field Name="data" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Conduit.Net.ConduitServer">
     <Position X="7.5" Y="4.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAMAmAABAAAMGAAAAgAAKAAAAAAgAAAEgCACIA=</HashCode>
+      <HashCode>AAIAAAAMAmAABAAAMGAAAAgAAKAAAAAAgAAAEACACIA=</HashCode>
       <FileName>Net\ConduitServer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="listener" />
       <Field Name="Configuration" />
       <Field Name="Status" />
+      <Field Name="listener" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
@@ -100,7 +100,7 @@
     </TypeIdentifier>
   </Class>
   <Struct Name="Conduit.Net.ConduitClientStatus">
-    <Position X="8" Y="1.5" Width="1.5" />
+    <Position X="7.75" Y="1.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Net\ConduitClientStatus.cs</FileName>
