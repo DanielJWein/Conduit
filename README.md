@@ -11,6 +11,7 @@ A C# Library for uncomplicated audio streaming over Opus
 - [ ] Find a good way to distribute opus.dll
 - [ ] Publish to NuGet (possibly rename if something else is named Conduit)
 - [ ] Possibly break dependency on OpusDotNet or fork to use most recent Opus library
+- [ ] Switch to UDP/Multicast model with TCP management channel
 
 ### Usage:
 See [Usage](USAGE.md) for library usage and [App Usage](APP_USAGE.md) for app usage. 
