@@ -7,10 +7,10 @@ A C# Library for uncomplicated audio streaming over Opus
 
 ### Todo:
 - [ ] 100% passing test coverage
-- [ ] Determine if we should break out Turnkey into its own assembly
-- [ ] Find a good way to distribute opus.dll
-- [ ] Publish to NuGet (possibly rename if something else is named Conduit)
-- [ ] Possibly break dependency on OpusDotNet or fork to use most recent Opus library
+- [x] Determine if we should break out Turnkey into its own assembly
+- [x] Find a good way to distribute opus.dll
+- [x] Publish to NuGet (possibly rename if something else is named Conduit)
+- [x] Possibly break dependency on OpusDotNet or fork to use most recent Opus library
 - [ ] Switch to UDP/Multicast model with TCP management channel
 
 ### Usage:
