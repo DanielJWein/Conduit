@@ -82,7 +82,7 @@
   <Class Name="Conduit.Net.ConduitServer">
     <Position X="7.5" Y="4.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAMAmAABAAAEGAAAAgAAKAAAAAAgAAAEgCACIA=</HashCode>
+      <HashCode>AAAAAAAMAmAABAAAMGAAAAgAAKAAAAAAgAAAEgCACIA=</HashCode>
       <FileName>Net\ConduitServer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -100,7 +100,7 @@
     </TypeIdentifier>
   </Class>
   <Struct Name="Conduit.Net.ConduitClientStatus">
-    <Position X="7.75" Y="1.25" Width="1.5" />
+    <Position X="8" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Net\ConduitClientStatus.cs</FileName>
