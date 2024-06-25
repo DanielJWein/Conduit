@@ -1,6 +1,4 @@
-﻿using Conduit.Codec.NAudio;
-
-namespace Conduit.Codec;
+﻿namespace Conduit.Codec;
 
 /// <summary>
 /// Represents the base class for a ConduitEncoder or ConduitDecoder.
@@ -49,7 +47,7 @@ public abstract class ConduitCodecBase : IDisposable {
     /// <summary>
     /// Stores the data for this encoder or decoder.
     /// </summary>
-    public AlertingBufferedWaveProvider Buffer { get; private set; }
+    public AlertingBuffer Buffer { get; private set; }
 
     /// <summary>
     /// If true, this codec is destroyed and cannot be used.
