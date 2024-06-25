@@ -26,11 +26,14 @@ public class ConduitServer : IDisposable {
     /// </summary>
     protected readonly Socket serverSocket;
 
+    /// <summary>
+    /// True if the server has been disposed
+    /// </summary>
+    protected bool disposed;
+
     private readonly List<ConduitConnection> clientele = new( 16 );
 
     private readonly ServerListener listener;
-
-    private bool disposedValue;
 
     /// <summary>
     /// Creates a new ConduitServer
@@ -87,7 +90,11 @@ public class ConduitServer : IDisposable {
     /// <summary>
     /// Disconnects all connected clients.
     /// </summary>
+    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void Close( ) {
+        if ( disposed ) {
+            throw new ObjectDisposedException( "ConduitServer" );
+        }
         lock ( clientele ) {
             foreach ( ConduitConnection c in clientele ) {
                 c.Close( );
@@ -101,7 +108,11 @@ public class ConduitServer : IDisposable {
     /// <summary>
     /// Disconnects a specified client
     /// </summary>
+    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void DisconnectClient( ConduitConnection who ) {
+        if ( disposed ) {
+            throw new ObjectDisposedException( "ConduitServer" );
+        }
         lock ( clientele ) {
             who.Close( );
             OnClientDisconnected?.Invoke( this, new( who.GetAddress( ) ) );
@@ -122,7 +133,11 @@ public class ConduitServer : IDisposable {
     /// Sends data to all connected clients
     /// </summary>
     /// <param name="data"> The data to send </param>
+    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void Send( ConduitCodecFrame data ) {
+        if ( disposed ) {
+            throw new ObjectDisposedException( "ConduitServer" );
+        }
         if ( data.IsEmpty && !Configuration.SendEmptyPackets )
             return;
         lock ( data ) {
@@ -156,7 +171,11 @@ public class ConduitServer : IDisposable {
     /// Sends a control packet to the client
     /// </summary>
     /// <param name="ControlPacket"> The control packet to send </param>
+    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void Send( byte[ ] ControlPacket ) {
+        if ( disposed ) {
+            throw new ObjectDisposedException( "ConduitServer" );
+        }
         lock ( clientele ) {
             foreach ( ConduitConnection c in clientele ) {
                 c.SendControlPacket( ControlPacket );
@@ -171,17 +190,33 @@ public class ConduitServer : IDisposable {
     /// <summary>
     /// Starts listening for new connections
     /// </summary>
-    public async Task StartListening( ) => await listener.StartListening( );
+    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
+    public async Task StartListening( ) {
+        if ( disposed ) {
+            throw new ObjectDisposedException( "ConduitServer" );
+        }
+        await listener.StartListening( );
+    }
 
     /// <summary>
     /// Stops listening for new connections.
     /// </summary>
-    public void StopListening( ) => listener.StopListening( );
+    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
+    public void StopListening( ) {
+        if ( disposed ) {
+            throw new ObjectDisposedException( "ConduitServer" );
+        }
+        listener.StopListening( );
+    }
 
     /// <summary>
     /// Checks to see if clients have sent control packets.
     /// </summary>
+    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void UpdateClients( ) {
+        if ( disposed ) {
+            throw new ObjectDisposedException( "ConduitServer" );
+        }
         for ( int i = 0; i < clientele.Count; i++ ) {
             ConduitConnection client = clientele[ i ];
             try {
@@ -198,7 +233,7 @@ public class ConduitServer : IDisposable {
     /// </summary>
     /// <param name="disposing"> If true, clear managed resources as well </param>
     protected virtual void Dispose( bool disposing ) {
-        if ( disposedValue )
+        if ( disposed )
             return;
         if ( disposing ) {
             Close( );
@@ -208,14 +243,18 @@ public class ConduitServer : IDisposable {
         serverSocket?.Dispose( );
         listener.StopListening( );
         listener.Dispose( );
-        disposedValue = true;
+        disposed = true;
     }
 
     /// <summary>
     /// Handles control packets
     /// </summary>
     /// <param name="client"> The client to receive from </param>
+    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     private void handleControlPacket( ConduitConnection client ) {
+        if ( disposed ) {
+            throw new ObjectDisposedException( "ConduitServer" );
+        }
         Socket clientSocket = client.GetSocket();
         if ( clientSocket.Available > 1 ) {
             byte[] controlData = new byte[2];

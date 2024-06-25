@@ -60,8 +60,12 @@ public sealed class ConduitTurnkeyServer : ConduitServer, IDisposable {
     /// Sends data to the clients
     /// </summary>
     /// <param name="sender"> Not used </param>
+    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     private void update( object sender ) {
         while ( !killThread ) {
+            if ( disposed ) {
+                throw new ObjectDisposedException( "ConduitTurnkeyServer" );
+            }
             int framesAvailable = cesc.GetFramesAvailable();
             for ( int i = 0; i < framesAvailable; i++ ) {
                 //If so, get one.
