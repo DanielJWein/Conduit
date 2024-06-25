@@ -55,6 +55,8 @@ public class ConduitServer : IDisposable {
         Status = new( );
 
         Status.TrackTitle.ValueChanged += ( object s, EventArgs e ) => Send( ConduitControlPacket.CONTROL_TRACK_TITLE_CHANGED );
+
+        _ = listener.StartListening( );
     }
 
     /// <summary>
@@ -101,6 +103,7 @@ public class ConduitServer : IDisposable {
             clients.Clear( );
         }
         OnDisconnectAllClients?.Invoke( this, EventArgs.Empty );
+        listener.StopListening( );
     }
 
     /// <summary>
@@ -183,24 +186,6 @@ public class ConduitServer : IDisposable {
     }
 
     /// <summary>
-    /// Starts listening for new connections
-    /// </summary>
-    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
-    public async Task StartListening( ) {
-        DisposedHelpers.ThrowIfDisposed( disposed );
-        await listener.StartListening( );
-    }
-
-    /// <summary>
-    /// Stops listening for new connections.
-    /// </summary>
-    /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
-    public void StopListening( ) {
-        DisposedHelpers.ThrowIfDisposed( disposed );
-        listener.StopListening( );
-    }
-
-    /// <summary>
     /// Checks to see if clients have sent control packets.
     /// </summary>
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
@@ -228,7 +213,6 @@ public class ConduitServer : IDisposable {
             Close( );
             clients?.Clear( );
         }
-        StopListening( );
         serverSocket?.Dispose( );
         listener.StopListening( );
         listener.Dispose( );

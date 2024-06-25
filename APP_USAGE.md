@@ -27,10 +27,6 @@ There is no control to disconnect, so just reopen the client to connect to a new
 ## Server Usage
 ![A picture of the Conduit Live Server interface](doc/img/server.png)
 
-To start listening for clients, click `Start`.
-
-To stop listening for clients, click `Stop`.
-
 To disconnect a specific client, click on their IP in the list box.
 
 To view the queue, click `View Queue`.

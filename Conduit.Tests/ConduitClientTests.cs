@@ -31,8 +31,7 @@ public class ConduitClientTests {
 
     [Test]
     public async Task TestConnect( ) {
-        _ = server.StartListening( );
-        Task t= Task.Run( ( ) => client.Connect( ) );
+        Task t = Task.Run( ( ) => client.Connect( ) );
         Thread.Sleep( WAIT_LONG );
         server.UpdateClients( );
         await t;
@@ -48,7 +47,6 @@ public class ConduitClientTests {
 
     [Test]
     public async Task TestDisconnect( ) {
-        _ = server.StartListening( );
         Task t= Task.Run( ( ) => client.Connect( ) );
         Thread.Sleep( WAIT_LONG );
         server.UpdateClients( );
@@ -77,7 +75,6 @@ public class ConduitClientTests {
     public async Task TestTrackTitle( ) {
         bool eventRaised = false;
 
-        _ = server.StartListening( );
         server.Status.TrackTitle.Value = "Test Beats vol 112041204.0";
         Task t= Task.Run( ( ) => client.Connect( ) );
         Thread.Sleep( WAIT_LONG );

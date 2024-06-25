@@ -117,17 +117,7 @@ void Setup() {
     //Bind to {Any} on 32662
     server = new ConduitServer();
 }
-
-//Start accepting new clients
-void StartListening() {
-    server.StartListening();
-}
-
-//Stop accepting new clients
-void StopListening() {
-    server.StopListening();
-}
-
+ 
 //Sends a data frame to all clients
 void SendFrameToClients(ConduitCodecFrame data) {
     server.Send(data);
@@ -149,7 +139,7 @@ void Close() {
 > [!NOTE]
 > The server will not send empty frames. If you have long stretches of complete silence in your audio, the server will truncate these.
 >
-> To remedy this, you can set `server.SendEmptyPackets` to `true`.
+> To remedy this, you can set `server.Configuration.SendEmptyPackets` to `true`.
 
 <hr style="border-bottom: 2px solid #88F">
 
@@ -180,16 +170,6 @@ void Setup(IWaveProvider waveProvider) {
     //Automatically set up a thread to read data from
     //the waveProvider and send that data to clients.
     server = new ConduitTurnkeyServer(waveProvider);
-}
-
-//Start accepting new clients
-void StartListening() {
-    server.StartListening();
-}
-
-//Stop accepting new clients
-void StopListening() {
-    server.StopListening();
 }
 
 //Sends a data frame to all clients

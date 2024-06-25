@@ -28,8 +28,6 @@ partial class ConduitServerForm {
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConduitServerForm));
         TitleLabel = new Label( );
         StatusLabel = new Label( );
-        buttonListen = new Button( );
-        buttonStopListen = new Button( );
         RunningTimeLabel = new Label( );
         QueueRemainingLabel = new Label( );
         ConnectionsLabel = new Label( );
@@ -67,31 +65,7 @@ partial class ConduitServerForm {
         StatusLabel.Name = "StatusLabel";
         StatusLabel.Size = new Size( 45, 15 );
         StatusLabel.TabIndex = 1;
-        StatusLabel.Text = "STATUS";
-        // 
-        // buttonListen
-        // 
-        buttonListen.FlatStyle = FlatStyle.Flat;
-        buttonListen.ForeColor = SystemColors.Control;
-        buttonListen.Location = new Point( 5, 48 );
-        buttonListen.Name = "buttonListen";
-        buttonListen.Size = new Size( 83, 29 );
-        buttonListen.TabIndex = 2;
-        buttonListen.Text = "Start";
-        buttonListen.UseVisualStyleBackColor = true;
-        buttonListen.Click +=  onListenClick ;
-        // 
-        // buttonStopListen
-        // 
-        buttonStopListen.FlatStyle = FlatStyle.Flat;
-        buttonStopListen.ForeColor = SystemColors.Control;
-        buttonStopListen.Location = new Point( 94, 48 );
-        buttonStopListen.Name = "buttonStopListen";
-        buttonStopListen.Size = new Size( 83, 29 );
-        buttonStopListen.TabIndex = 3;
-        buttonStopListen.Text = "Stop";
-        buttonStopListen.UseVisualStyleBackColor = true;
-        buttonStopListen.Click +=  onStopListeningClick ;
+        StatusLabel.Text = "STATUS";  
         // 
         // RunningTimeLabel
         // 
@@ -259,8 +233,6 @@ partial class ConduitServerForm {
         Controls.Add( ConnectionsLabel );
         Controls.Add( QueueRemainingLabel );
         Controls.Add( RunningTimeLabel );
-        Controls.Add( buttonStopListen );
-        Controls.Add( buttonListen );
         Controls.Add( StatusLabel );
         Controls.Add( TitleLabel );
         DoubleBuffered = true;
@@ -278,8 +250,6 @@ partial class ConduitServerForm {
 
     private Label TitleLabel;
     private Label StatusLabel;
-    private Button buttonListen;
-    private Button buttonStopListen;
     private Label RunningTimeLabel;
     private Label QueueRemainingLabel;
     private Label ConnectionsLabel;
