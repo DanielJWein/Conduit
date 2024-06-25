@@ -1,7 +1,4 @@
-﻿using NAudio.Utils;
-using NAudio.Wave;
-
-namespace Conduit.Codec.NAudio;
+﻿namespace Conduit.Codec;
 
 /// <summary>
 /// Provides a buffer that automatically raises events related to the amount of audio left
@@ -10,7 +7,7 @@ namespace Conduit.Codec.NAudio;
 /// Code was retrofitted from a decompilation of BufferedWaveProvider by Mark Heath of the NAudio
 /// Project. See https://github.com/naudio/NAudio for more details.
 /// </remarks>
-public sealed class AlertingBufferedWaveProvider : IWaveProvider {
+public class AlertingBuffer {
 
     /// <summary>
     /// The underlying CircularBuffer length
@@ -30,7 +27,7 @@ public sealed class AlertingBufferedWaveProvider : IWaveProvider {
     /// <param name="ts">        
     /// The duration of the buffer. If it is null or not provided, it is set to 30 seconds.
     /// </param>
-    public AlertingBufferedWaveProvider( WaveFormat waveFormat, TimeSpan? ts = null ) {
+    public AlertingBuffer( WaveFormat waveFormat, TimeSpan? ts = null ) {
         if ( ts is null ) {
             ts = TimeSpan.FromSeconds( 30 );
         }

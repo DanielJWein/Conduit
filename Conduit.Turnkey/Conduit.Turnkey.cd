@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
   <Class Name="Conduit.Net.Turnkey.ConduitTurnkeyClient">
     <Position X="1.5" Y="1.75" Width="2" />
     <TypeIdentifier>
@@ -10,11 +10,27 @@
   </Class>
   <Class Name="Conduit.Net.Turnkey.ConduitTurnkeyServer">
     <Position X="4" Y="1.75" Width="2" />
+    <AssociationLine Name="cesc" Type="Conduit.Codec.NAudio.ConduitEncodingSampleConsumer" FixedFromPoint="true">
+      <Path>
+        <Point X="6" Y="3.938" />
+        <Point X="6.75" Y="3.938" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAgACAAAAAIAAAAACAAAAAAAAAEAAAAAAAEAAA=</HashCode>
       <FileName>ConduitTurnkeyServer.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="cesc" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Conduit.Codec.NAudio.ConduitEncodingSampleConsumer">
+    <Position X="6.75" Y="2.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAIAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConduitEncodingSampleConsumer.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

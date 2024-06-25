@@ -1,8 +1,4 @@
-using System.Text;
-
 using Conduit.Codec;
-
-using NAudio.Wave;
 
 namespace Conduit.Tests;
 

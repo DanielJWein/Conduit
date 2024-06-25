@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Conduit.Codec.NAudio;
+﻿using Conduit.Codec;
 
 namespace Conduit.Tests;
 
 public class AlertingBufferedWaveProviderTests {
-    private AlertingBufferedWaveProvider abwp;
+    private AlertingBuffer abwp;
 
     [SetUp]
     public void SetUp( ) {
-        abwp = new( new NAudio.Wave.WaveFormat( 48000, 16, 2 ), TimeSpan.FromSeconds( 5 ) );
+        abwp = new( new WaveFormat( 48000, 16, 2 ), TimeSpan.FromSeconds( 5 ) );
     }
 
     [Test]

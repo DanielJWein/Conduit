@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-using Conduit.Codec;
+﻿using Conduit.Codec;
 using Conduit.Codec.NAudio;
 
 using NAudio.Wave;

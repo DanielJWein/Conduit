@@ -1,10 +1,9 @@
 ﻿using System.Net;
 using System.Net.Sockets;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Conduit.Codec;
 using Conduit.Net.Exceptions;
+using Conduit.Turnkey;
 
 using NAudio.Wave;
 
@@ -45,6 +44,11 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     private bool continueThread;
 
     /// <summary>
+    /// Holds our buffer in a format NAudio can use to play
+    /// </summary>
+    private AlertingBufferedWaveProvider abwp;
+
+    /// <summary>
     /// Creates a new ConduitTurnkeyClient
     /// </summary>
     public ConduitTurnkeyClient( string address, ushort port = 32662 ) : base( address, port ) {
@@ -66,7 +70,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
             NumberOfBuffers = 2,
             Volume = 0.125f
         };
-        woes.Init( conduitDec.Buffer );
+        woes.Init( new AlertingBufferedWaveProvider( conduitDec.Buffer ) );
 
         _ = Task.Run( fillBufferAndPlay );
     }
