@@ -5,8 +5,6 @@ global using System.Text;
 
 global using OpusDotNet;
 
-global using NAudio.Wave;
-
 global using Conduit.Net.Connection;
 using System.Runtime.CompilerServices;
 

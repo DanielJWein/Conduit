@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Conduit.Net.Turnkey.ConduitTurnkeyClient">
+    <Position X="1.5" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AABIEgAAACAAAACAhAAAAAAAASMAAAAAAIIAAAAAAEA=</HashCode>
+      <FileName>ConduitTurnkeyClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Conduit.Net.Turnkey.ConduitTurnkeyServer">
+    <Position X="4" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgACAAAAAIAAAAACAAAAAAAAAEAAAAAAAEAAA=</HashCode>
+      <FileName>ConduitTurnkeyServer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

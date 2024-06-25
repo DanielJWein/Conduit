@@ -37,36 +37,6 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Conduit.Net.Turnkey.ConduitTurnkeyClient">
-    <Position X="10.5" Y="10.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AABIEgAAACAAAACAhAAAAAAAASMAAAAAAIIAAAAAAEA=</HashCode>
-      <FileName>Net\Turnkey\ConduitTurnkeyClient.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="conduitDec" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Conduit.Net.Turnkey.ConduitTurnkeyServer">
-    <Position X="7.5" Y="10.75" Width="2" />
-    <AssociationLine Name="cesc" Type="Conduit.Codec.NAudio.ConduitEncodingSampleConsumer" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="8.5" Y="13.463" />
-        <Point X="8.5" Y="15.82" />
-        <Point X="14.75" Y="15.82" />
-        <Point X="14.75" Y="14.877" />
-      </Path>
-    </AssociationLine>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAgACAAAAAIAAAAACAAAAAAAAAEAAAAAAAEAAA=</HashCode>
-      <FileName>Net\Turnkey\ConduitTurnkeyServer.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="cesc" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="Conduit.Net.ConduitClient">
     <Position X="10.5" Y="4.75" Width="2" />
     <TypeIdentifier>
@@ -79,10 +49,17 @@
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="Conduit.Util.ByteQueue">
+    <Position X="10.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACACAAAAAAiAAAAAAAAAEBACAFAAAA=</HashCode>
+      <FileName>Util\ByteQueue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Conduit.Net.ConduitServer">
     <Position X="7.5" Y="4.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAMAmAABAAAMGAAAAAgAKAAAAAAgAAAEACACIA=</HashCode>
+      <HashCode>AAIAAAAMAmAABAAAMGAAAAAgAKAAAAAAgAAAAACACAA=</HashCode>
       <FileName>Net\ConduitServer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -91,13 +68,6 @@
       <Field Name="listener" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Conduit.Util.ByteQueue">
-    <Position X="10.5" Y="0.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAACACAAAAAAiAAAAAAAAAEBACAFAAAA=</HashCode>
-      <FileName>Util\ByteQueue.cs</FileName>
-    </TypeIdentifier>
   </Class>
   <Struct Name="Conduit.Net.ConduitClientStatus">
     <Position X="7.75" Y="1.5" Width="1.75" />

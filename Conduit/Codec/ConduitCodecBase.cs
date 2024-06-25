@@ -1,5 +1,7 @@
 ﻿using Conduit.Codec.NAudio;
 
+using NAudio.Wave;
+
 namespace Conduit.Codec;
 
 /// <summary>
