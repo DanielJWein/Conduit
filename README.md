@@ -18,3 +18,6 @@ See [Usage](USAGE.md) for library usage and [App Usage](APP_USAGE.md) for app us
 
 ### License:
 Conduit is distributed under the [MIT License](LICENSE).
+
+### Acknowledgements:
+Used code and libraries can be found in [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md).
