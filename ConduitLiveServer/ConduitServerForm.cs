@@ -66,11 +66,6 @@ public partial class ConduitServerForm : Form {
         ConnectionsLabel.Text = $"#{server.Clients.Count}";
     }
 
-    private void onListenClick( object? sender, EventArgs e ) {
-        _ = server.StartListening( );
-        listening = true;
-    }
-
     private void onMSPDropInput( object? sender, SampleProviderEventArgs e ) {
         try {
             afq.BlastTheFirstOne( );
@@ -106,12 +101,6 @@ public partial class ConduitServerForm : Form {
         labelDataUnique.Text = "Total Data: " + ConduitServerFormHelpers.CounterToStr( server.Status.DataCounter );
         labelDataTotal.Text = "Total Data Sent: " + ConduitServerFormHelpers.CounterToStr( server.Status.TotalDataCounter );
         labelBitrate.Text = $"Average Bitrate: {server.Status.ExpectedBitrate:n0}";
-    }
-
-    private void onStopListeningClick( object? sender, EventArgs e ) {
-        server.StopListening( );
-        listening = false;
-        StatusLabel.Text = "OK (Stopped)";
     }
 
     private void onTitleMouseDown( object? sender, MouseEventArgs e ) {
