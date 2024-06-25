@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
   <Class Name="Conduit.Codec.NAudio.ConduitEncodingSampleConsumer">
     <Position X="13.5" Y="13" Width="2.5" />
     <TypeIdentifier>
@@ -40,7 +40,7 @@
   <Class Name="Conduit.Net.Turnkey.ConduitTurnkeyClient">
     <Position X="10.5" Y="10.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AABIEgAAACAAAACAhAAAAAAAASEAAAAAAIIAAAAAAEA=</HashCode>
+      <HashCode>AABIEgAAACAAAACAhAAAAAAAASMAAAAAAIIAAAAAAEA=</HashCode>
       <FileName>Net\Turnkey\ConduitTurnkeyClient.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -52,7 +52,7 @@
     <Position X="7.5" Y="10.75" Width="2" />
     <AssociationLine Name="cesc" Type="Conduit.Codec.NAudio.ConduitEncodingSampleConsumer" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="8.5" Y="13.204" />
+        <Point X="8.5" Y="13.463" />
         <Point X="8.5" Y="15.82" />
         <Point X="14.75" Y="15.82" />
         <Point X="14.75" Y="14.877" />
@@ -70,7 +70,7 @@
   <Class Name="Conduit.Net.ConduitClient">
     <Position X="10.5" Y="4.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAYhEAIEACAAAAAQAAAAAIAAAIAAAUIAAIAwAAAAAAA=</HashCode>
+      <HashCode>AAYhEAIEACAAABAQAAAAAIAAAIAAAUIAAIAwAAAAAAA=</HashCode>
       <FileName>Net\ConduitClient.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -82,7 +82,7 @@
   <Class Name="Conduit.Net.ConduitServer">
     <Position X="7.5" Y="4.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAMAmAABAAAMGAAAAgAAKAAAAAAgAAAEACACIA=</HashCode>
+      <HashCode>AAIAAAAMAmAABAAAMGAAAAAgAKAAAAAAgAAAEACACIA=</HashCode>
       <FileName>Net\ConduitServer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
