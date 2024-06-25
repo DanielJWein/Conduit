@@ -31,7 +31,7 @@ public class ConduitServer : IDisposable {
     /// </summary>
     protected bool disposed;
 
-    private readonly List<ConduitConnection> clientele = new( 16 );
+    private readonly List<ConduitConnection> clients = new( 16 );
 
     private readonly ServerListener listener;
 
@@ -47,7 +47,7 @@ public class ConduitServer : IDisposable {
 
         //Alias the ClientConnected event
         listener.ClientConnected += ( object? s, ClientConnectedEventArgs args ) => {
-            clientele.Add( new ConduitConnection( args.Socket, args.Address ) );
+            clients.Add( new ConduitConnection( args.Socket, args.Address ) );
             OnClientConnected?.Invoke( s, args );
         };
 
@@ -60,7 +60,7 @@ public class ConduitServer : IDisposable {
     /// <summary>
     /// Holds a list of all connected clients
     /// </summary>
-    public IReadOnlyList<ConduitConnection> Clients => clientele;
+    public IReadOnlyList<ConduitConnection> Clients => clients;
 
     /// <summary>
     /// Raised when a client connects
@@ -93,12 +93,12 @@ public class ConduitServer : IDisposable {
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void Close( ) {
         DisposedHelpers.ThrowIfDisposed( disposed );
-        lock ( clientele ) {
-            foreach ( ConduitConnection c in clientele ) {
+        lock ( clients ) {
+            foreach ( ConduitConnection c in clients ) {
                 c.Close( );
                 OnClientDisconnected?.Invoke( this, new( c.GetAddress( ) ) );
             }
-            clientele.Clear( );
+            clients.Clear( );
         }
         OnDisconnectAllClients?.Invoke( this, EventArgs.Empty );
     }
@@ -109,10 +109,10 @@ public class ConduitServer : IDisposable {
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void DisconnectClient( ConduitConnection who ) {
         DisposedHelpers.ThrowIfDisposed( disposed );
-        lock ( clientele ) {
+        lock ( clients ) {
             who.Close( );
             OnClientDisconnected?.Invoke( this, new( who.GetAddress( ) ) );
-            clientele.RemoveAll( x => x.Closed );
+            clients.RemoveAll( x => x.Closed );
         }
     }
 
@@ -141,12 +141,12 @@ public class ConduitServer : IDisposable {
             Status.ExpectedBitrate = ( data.RealDataLength - 1 ) * FramesPerSecond * 8;
 
             //Lock clients to prevent new connections
-            lock ( clientele ) {
+            lock ( clients ) {
                 Status.DataCounter += data.RealDataLength + 4u;
                 UpdateClients( );
-                clientele.RemoveAll( x => x.Closed );
-                for ( int i = 0; i < clientele.Count; i++ ) {
-                    ConduitConnection client = clientele[ i ];
+                clients.RemoveAll( x => x.Closed );
+                for ( int i = 0; i < clients.Count; i++ ) {
+                    ConduitConnection client = clients[ i ];
                     if ( !client.Ready ) {
                         continue;
                     }
@@ -158,7 +158,7 @@ public class ConduitServer : IDisposable {
                         client.Close( );
                     }
                 }
-                clientele.RemoveAll( x => x.Closed );
+                clients.RemoveAll( x => x.Closed );
             }
         }
         OnEmitData?.Invoke( this, EventArgs.Empty );
@@ -171,8 +171,8 @@ public class ConduitServer : IDisposable {
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void Send( byte[ ] ControlPacket ) {
         DisposedHelpers.ThrowIfDisposed( disposed );
-        lock ( clientele ) {
-            foreach ( ConduitConnection c in clientele ) {
+        lock ( clients ) {
+            foreach ( ConduitConnection c in clients ) {
                 c.SendControlPacket( ControlPacket );
                 //If we're sending the track title, send the track title.
                 if ( ControlPacket.CheckAgainst( ConduitControlPacket.CONTROL_TRACK_TITLE_CHANGED ) ) {
@@ -206,8 +206,8 @@ public class ConduitServer : IDisposable {
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void UpdateClients( ) {
         DisposedHelpers.ThrowIfDisposed( disposed );
-        for ( int i = 0; i < clientele.Count; i++ ) {
-            ConduitConnection client = clientele[ i ];
+        for ( int i = 0; i < clients.Count; i++ ) {
+            ConduitConnection client = clients[ i ];
             try {
                 handleControlPacket( client );
             }
@@ -226,7 +226,7 @@ public class ConduitServer : IDisposable {
             return;
         if ( disposing ) {
             Close( );
-            clientele?.Clear( );
+            clients?.Clear( );
         }
         StopListening( );
         serverSocket?.Dispose( );
@@ -249,7 +249,7 @@ public class ConduitServer : IDisposable {
 
             if ( controlData.CheckAgainst( ConduitControlPacket.CONTROL_DISCONNECT ) ) {
                 client.Close( );
-                clientele.Remove( client );
+                clients.Remove( client );
             }
             else if ( controlData.CheckAgainst( ConduitControlPacket.CONTROL_CLIENT_REQUEST_TRACK_TITLE ) ) {
                 client.SendControlPacket( ConduitControlPacket.CONTROL_TRACK_TITLE_CHANGED );
