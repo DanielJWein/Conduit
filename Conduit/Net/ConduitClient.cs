@@ -92,9 +92,7 @@ public class ConduitClient : IDisposable {
     /// </summary>
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     public void Connect( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitClient" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         Socket socket = new  ( ServerEndpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp ) {
             ReceiveBufferSize = 256 * 1024 //256 Kilobytes
         };
@@ -113,9 +111,7 @@ public class ConduitClient : IDisposable {
     /// </summary>
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     public void Disconnect( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitClient" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         serverConnection?.Close( );
         if ( Status.Connected ) {
             Status.Connected = false;
@@ -138,9 +134,7 @@ public class ConduitClient : IDisposable {
     /// <returns> A ConduitCodecFrame with the encoded Opus data. </returns>
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     public ConduitCodecFrame GetFrame( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitClient" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         if ( !Status.Connected ) {
             return null;
         }
@@ -175,9 +169,7 @@ public class ConduitClient : IDisposable {
     /// <exception cref="DisconnectedException"> Thrown if the control packet was <see cref="ConduitControlPacket.CONTROL_DISCONNECT" /> </exception>
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     public bool Update( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitClient" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         return processControlPacket( serverConnection.Receive( 2, true ) );
     }
 
@@ -186,9 +178,7 @@ public class ConduitClient : IDisposable {
     /// </summary>
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     protected virtual void ClearData( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitClient" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         data.Clear( );
     }
 
@@ -211,9 +201,7 @@ public class ConduitClient : IDisposable {
     /// <returns> True, if the packet was a control packet. </returns>
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     private bool processControlPacket( byte[ ] data ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitClient" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         if ( !Status.Connected ) {
             return false;
         }

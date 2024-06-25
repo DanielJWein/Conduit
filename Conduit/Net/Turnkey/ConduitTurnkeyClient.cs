@@ -79,9 +79,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// </exception>
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     public void ChangeServer( IPEndPoint newServer, bool reconnect = false ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitTurnkeyClient" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         if ( Status.Connected ) {
             if ( reconnect ) {
                 Disconnect( );
@@ -130,9 +128,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// <param name="e">      Unused </param>
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     private async void onBufferOutAsync( object sender, EventArgs e ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitTurnkeyClient" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         try {
             woes.Pause( );
             await Task.Delay( (int) conduitDec.Buffer.BufferLowThreshold.TotalMilliseconds );
@@ -146,9 +142,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// </summary>
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     private async void fillBufferAndPlay( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitTurnkeyClient" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         await Task.Delay( (int) conduitDec.Buffer.BufferLowThreshold.TotalMilliseconds );
         woes.Play( );
     }
@@ -160,9 +154,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     private void tick( object nil ) {
         while ( continueThread ) {
-            if ( disposed ) {
-                throw new ObjectDisposedException( "ConduitTurnkeyClient" );
-            }
+            DisposedHelpers.ThrowIfDisposed( disposed );
             if ( Status.Connected && !serverConnection.Closed ) {
                 //Get a frame (this also processes control packets)
                 try {
@@ -184,9 +176,7 @@ public sealed class ConduitTurnkeyClient : ConduitClient, IDisposable {
     /// <inheritdoc />
     /// <exception cref="ObjectDisposedException"> Thrown if this client is disposed. </exception>
     protected override void ClearData( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitTurnkeyClient" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         conduitDec.Buffer.ClearBuffer( );
         base.ClearData( );
     }

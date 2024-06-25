@@ -92,9 +92,7 @@ public class ConduitServer : IDisposable {
     /// </summary>
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void Close( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitServer" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         lock ( clientele ) {
             foreach ( ConduitConnection c in clientele ) {
                 c.Close( );
@@ -110,9 +108,7 @@ public class ConduitServer : IDisposable {
     /// </summary>
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void DisconnectClient( ConduitConnection who ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitServer" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         lock ( clientele ) {
             who.Close( );
             OnClientDisconnected?.Invoke( this, new( who.GetAddress( ) ) );
@@ -135,9 +131,7 @@ public class ConduitServer : IDisposable {
     /// <param name="data"> The data to send </param>
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void Send( ConduitCodecFrame data ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitServer" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         if ( data.IsEmpty && !Configuration.SendEmptyPackets )
             return;
         lock ( data ) {
@@ -173,9 +167,7 @@ public class ConduitServer : IDisposable {
     /// <param name="ControlPacket"> The control packet to send </param>
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void Send( byte[ ] ControlPacket ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitServer" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         lock ( clientele ) {
             foreach ( ConduitConnection c in clientele ) {
                 c.SendControlPacket( ControlPacket );
@@ -192,9 +184,7 @@ public class ConduitServer : IDisposable {
     /// </summary>
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public async Task StartListening( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitServer" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         await listener.StartListening( );
     }
 
@@ -203,9 +193,7 @@ public class ConduitServer : IDisposable {
     /// </summary>
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void StopListening( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitServer" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         listener.StopListening( );
     }
 
@@ -214,9 +202,7 @@ public class ConduitServer : IDisposable {
     /// </summary>
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     public void UpdateClients( ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitServer" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         for ( int i = 0; i < clientele.Count; i++ ) {
             ConduitConnection client = clientele[ i ];
             try {
@@ -252,9 +238,7 @@ public class ConduitServer : IDisposable {
     /// <param name="client"> The client to receive from </param>
     /// <exception cref="ObjectDisposedException"> Thrown if this server is disposed. </exception>
     private void handleControlPacket( ConduitConnection client ) {
-        if ( disposed ) {
-            throw new ObjectDisposedException( "ConduitServer" );
-        }
+        DisposedHelpers.ThrowIfDisposed( disposed );
         Socket clientSocket = client.GetSocket();
         if ( clientSocket.Available > 1 ) {
             byte[] controlData = new byte[2];
