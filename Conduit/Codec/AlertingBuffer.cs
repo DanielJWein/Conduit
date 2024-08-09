@@ -32,7 +32,7 @@ public class AlertingBuffer {
             ts = TimeSpan.FromSeconds( 30 );
         }
         WaveFormat = waveFormat;
-        BufferLength = waveFormat.AverageBytesPerSecond * 30;
+        BufferLength = (int)Math.Ceiling(waveFormat.AverageBytesPerSecond * ts.Value.TotalSeconds);
         ReadFully = true;
         BufferLowThreshold = TimeSpan.FromSeconds( ts.Value.TotalSeconds * 0.10f );
         BufferHighThreshold = TimeSpan.FromSeconds( ts.Value.TotalSeconds * 0.90f );
