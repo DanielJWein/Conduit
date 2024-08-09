@@ -49,7 +49,9 @@ void WeGotSomeDataFromSomewhere(ConduitCodecFrame frame) {
 }
 
 void decoderFrameDecoded(object? sender, EventArgs args) {
-    //The PCM data is in decoder.Buffer, which is an NAudio.IWaveProvider. You can play this into any NAudio class that takes one (like WaveOutEvent or WaveFileWriter).
+    //The PCM data is in decoder.Buffer, which is an NAudio.IWaveProvider.
+    //You can play this into any NAudio class that takes one
+    //(like WaveOutEvent or WaveFileWriter).
 
     //See ConduitTurnkeyClient for a usage example.
 }
