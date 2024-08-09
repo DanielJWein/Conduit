@@ -9,5 +9,7 @@ Conduit is built on [OpusDotNet](https://github.com/mrphil2105/OpusDotNet) from 
 
 ## Licensed Software
 [NAudio](https://www.github.com/naudio/naudio): MIT License
+
 [OpusDotNet](https://github.com/mrphil2105/OpusDotNet): MIT License
+
 [Opus](https://opus-codec.org/license/): BSD License with Opus Clause
